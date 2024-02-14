@@ -1,0 +1,47 @@
+---
+additional_resources:
+- description: Created with hepdata_lib 0.14.0
+  location: https://doi.org/10.5281/zenodo.1217998
+- description: Original digitised file used in NUISANCE.
+  location: nuisance_digitized_file.root
+- description: Python conversion script used to build this submisson. Part of NUISANCE.
+  location: ToHepData.py
+- description: Filter and Projection function examples. Can be run in the NUISANCE
+    HepData Env 1.0.
+  location: analysis.cxx
+comment: "Abstract: (APS)This paper reports a determination of the axial-vector form\
+  \ factor of the nucleon using the momentum-transfer distribution for 1737 events\
+  \ of the type \u03BD\u03BCd\u2192\u03BC\u2212pps. The events were obtained from\
+  \ a 2.4\xD7106-frame exposure of the Argonne 12-foot bubble chamber to a neutrino\
+  \ beam at the Argonne Zero Gradient Synchrotron. After fitting and applying selection\
+  \ criteria, the background was estimated to be at the 2% level. The axial-vector\
+  \ mass in the dipole parametrization was measured to be MA=1.00\xB10.05 GeV/c2,\
+  \ in good agreement both with earlier measurements from this experiment and with\
+  \ other recent results. A test of the conserved-vector-current hypothesis, made\
+  \ by simultaneously fitting MA and MV using dipole form factors, gave MA=0.80\xB1\
+  0.10 GeV/c2 and MV=0.96\xB10.04 GeV/c2."
+data_license:
+  description: The content can be shared and adapted but you must             give
+    appropriate credit and cannot restrict access to others.
+  name: cc-by-4.0
+  url: https://creativecommons.org/licenses/by/4.0/
+related_to_hepdata_records: []
+---
+data_file: eventcounts-q2.yaml
+description: "\n  Event Counts for ANL Measurement binned in Q2.\n  Comparisons should\
+  \ be shape only comparing to\n  statistical errors.\n  "
+keywords:
+- name: observables
+  values:
+  - EVENTS
+- name: reactions
+  values:
+  - NUMU D2 --> MU- D2
+- name: phrases
+  values:
+  - Neutrino
+  - CCQE
+  - Event Rate
+location: Example location
+name: EventCounts-Q2
+related_to_table_dois: []

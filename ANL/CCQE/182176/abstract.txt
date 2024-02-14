@@ -1,0 +1,7 @@
+Abstract: (APS)
+This paper reports a determination of the axial-vector form factor of the nucleon using the momentum-transfer distribution for 1737 events of the 
+type νμd→μ−pps. The events were obtained from a 2.4×106-frame exposure of the Argonne 12-foot bubble chamber to a neutrino beam at the Argonne 
+Zero Gradient Synchrotron. After fitting and applying selection criteria, the background was estimated to be at the 2% level. The axial-vector mass 
+in the dipole parametrization was measured to be MA=1.00±0.05 GeV/c2, in good agreement both with earlier measurements from this experiment and with 
+other recent results. A test of the conserved-vector-current hypothesis, made by simultaneously fitting MA and MV using dipole form factors, gave 
+MA=0.80±0.10 GeV/c2 and MV=0.96±0.04 GeV/c2.

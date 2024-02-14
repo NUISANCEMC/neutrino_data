@@ -1,0 +1,73 @@
+dependent_variables:
+- header:
+    name: DepVar
+    units: Event Counts
+  qualifiers:
+  - name: default_types
+    value: SHAPE/DIAG
+  - name: allowed_types
+    value: SHAPE/DIAG
+  - name: allowed_targets
+    value: D2
+  - name: allowed_species
+    value: numu
+  - name: suggested_flux
+    value: inspire:167744
+  - name: Filter
+    value: ANL_167744_CC1npip_Filter_CC1pi3Prong
+  - name: WNMu
+    value: ANL_167744_CC1npip_Project_WNMu
+  values:
+  - value: 3.8502
+  - value: 12.49
+  - value: 17.286
+  - value: 24.224
+  - value: 21.393
+  - value: 26.252
+  - value: 14.472
+  - value: 14.472
+  - value: 17.949
+  - value: 16.379
+  - value: 9.8305
+  - value: 10.403
+  - value: 5.8713
+  - value: 0.71459
+  - value: 1.7284
+  - value: 0.67936
+independent_variables:
+- header:
+    name: WNMu
+    units: '[GeV^{2}/C^{2}]'
+  values:
+  - high: 1.08
+    low: 1.04
+  - high: 1.12
+    low: 1.08
+  - high: 1.16
+    low: 1.12
+  - high: 1.2
+    low: 1.16
+  - high: 1.24
+    low: 1.2
+  - high: 1.28
+    low: 1.24
+  - high: 1.32
+    low: 1.28
+  - high: 1.36
+    low: 1.32
+  - high: 1.4
+    low: 1.36
+  - high: 1.44
+    low: 1.4
+  - high: 1.48
+    low: 1.44
+  - high: 1.52
+    low: 1.48
+  - high: 1.56
+    low: 1.52
+  - high: 1.64
+    low: 1.6
+  - high: 1.68
+    low: 1.64
+  - high: 1.84
+    low: 1.8

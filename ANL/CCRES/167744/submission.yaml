@@ -1,0 +1,53 @@
+---
+additional_resources:
+- description: Created with hepdata_lib 0.14.0
+  location: https://doi.org/10.5281/zenodo.1217998
+- description: Original digitised file used in NUISANCE.
+  location: nuisance_digitized_text.tar.gz
+- description: Python conversion script used to build this submisson. Part of NUISANCE.
+  location: ToHepData.py
+- description: Filter and Projection function examples. Can be run in the NUISANCE
+    HepData Env 1.0.
+  location: analysis.cxx
+comment: "Abstract: (APS)This paper gives the results of a study of single-pion production\
+  \ by the weak charged current utilizing the wide-band muon-type-neutrino beam at\
+  \ the Argonne Zero Gradient Synchrotron. The data were obtained from hydrogen and\
+  \ deuterium fillings of the 12-ft bubble chamber. The methods of event selection\
+  \ and separation from background are given as are the details of the corrections\
+  \ and systematic effects in the data sample. The energy-dependent cross sections\
+  \ and differential distributions are presented for the three single-pion production\
+  \ reactions \u03BDp\u2192\u03BC\u2212p\u03C0+, \u03BDn\u2192\u03BC\u2212p\u03C0\
+  0, and \u03BDn\u2192\u03BC\u2212n\u03C0+. An isospin decomposition shows that the\
+  \ ratio of I=12 to I=32 amplitudes is 0.68\xB10.04 with a relative phase of (90.7\xB1\
+  4.6)\xB0 for M(N\u03C0)<1.4 GeV. This agrees with theoretical models, particularly\
+  \ the detailed calculation of Adler. Using the data of the reaction \u03BDp\u2192\
+  \u03BC\u2212p\u03C0+, the characteristic mass of the nucleon axial-vector elastic\
+  \ form factor is measured to be 0.98\u22120.03+0.06 GeV when analyzed within the\
+  \ context of the Adler model. The data are also compared to other parametrizations\
+  \ of the nucleon axial-vector form factor."
+data_license:
+  description: The content can be shared and adapted but you must             give
+    appropriate credit and cannot restrict access to others.
+  name: cc-by-4.0
+  url: https://creativecommons.org/licenses/by/4.0/
+related_to_hepdata_records: []
+---
+data_file: eventrate-wnmu.yaml
+description: "\n  EventRate for CC1npip Measurement binned in WNMu\n  Comparisons\
+  \ should be shape only comparing to\n  statistical errors.\n  "
+keywords:
+- name: observables
+  values:
+  - EVENTS
+- name: reactions
+  values:
+  - MU- + n --> MU- + pip
+- name: phrases
+  values:
+  - Neutrino
+  - CC1npip
+  - WNMu
+  - EventRate
+location: Example location
+name: EventRate-WNMu
+related_to_table_dois: []
