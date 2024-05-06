@@ -1,0 +1,57 @@
+dependent_variables:
+- header:
+    name: DepVar
+    units: Event Counts
+  qualifiers:
+  - name: likelihood
+    value: Poisson
+  - name: scaling
+    value: EventRateScaleToData
+  - name: weighting
+    value: Default
+  - name: targets
+    value: D2
+  - name: species
+    value: numu
+  - name: suggested_flux
+    value: inspire:unknown
+  - name: Filter
+    value: ANL_167744_CC1npip_Filter_CC1pi3Prong
+  - name: cosmuStar
+    value: ANL_167744_CC1npip_Project_cosmuStar
+  values:
+  - value: 9.52
+  - value: 18.5
+  - value: 15.7
+  - value: 15.6
+  - value: 19.2
+  - value: 24.3
+  - value: 20.1
+  - value: 26.9
+  - value: 22.9
+  - value: 31.0
+independent_variables:
+- header:
+    name: cosmuStar
+    units: cos(#theta*)
+  values:
+  - high: -0.8
+    low: -0.998
+  - high: -0.601
+    low: -0.8
+  - high: -0.4
+    low: -0.601
+  - high: -0.201
+    low: -0.4
+  - high: -0.00204
+    low: -0.201
+  - high: 0.199
+    low: -0.00204
+  - high: 0.4
+    low: 0.199
+  - high: 0.599
+    low: 0.4
+  - high: 0.8
+    low: 0.599
+  - high: 0.998
+    low: 0.8

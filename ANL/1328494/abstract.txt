@@ -1,0 +1,5 @@
+There exists a long-standing disagreement between bubble chamber measurements of the single pion production channel νμp→μ-pπ+ from the Argonne and Brookhaven 
+National Laboratories. We digitize and reanalyze data from both experiments to produce cross-section ratios for various interaction channels, for which the flux 
+uncertainties cancel, and find good agreement between the experiments. By multiplying the cross-section ratio by the well-understood charged-current quasielastic 
+cross section on free nucleons, we extract single-pion production cross sections which do not depend on the flux normalization predictions. The νμp→μ-pπ+ cross 
+sections we extract show good agreement between the ANL and BNL data sets.

@@ -1,0 +1,71 @@
+---
+additional_resources:
+- description: Created with hepdata_lib 0.12.0
+  location: https://zenodo.org/record/4946277
+- description: Python conversion script used to build this submisson. Part of NUISANCE.
+  location: ToHepData.py
+- description: Filter and Projection function examples. Can be run in the NUISANCE
+    ProFilt Env 1.0.
+  location: snippet.cxx
+- description: Official data release from T2K
+  location: nd280data-numu-cc0pi-xs-on-c-2015.tar
+comment: "We report the measurement of muon neutrino charged-current interactions\
+  \ on carbon without pions in the final state at the T2K beam energy using 5.734\xD7\
+  1020 protons on target. For the first time the measurement is reported as a flux-integrated,\
+  \ double-differential cross section in muon kinematic variables (cos\u03B8\u03BC\
+  , p\u03BC), without correcting for events where a pion is produced and then absorbed\
+  \ by final state interactions. Two analyses are performed with different selections,\
+  \ background evaluations and cross-section extraction methods to demonstrate the\
+  \ robustness of the results against biases due to model-dependent assumptions. The\
+  \ measurements compare favorably with recent models which include nucleon-nucleon\
+  \ correlations but, given the present precision, the measurement does not distinguish\
+  \ among the available models. The data also agree with Monte Carlo simulations which\
+  \ use effective parameters that are tuned to external data to describe the nuclear\
+  \ effects. The total cross section in the full phase space is \u03C3=(0.417\xB1\
+  0.047(syst)\xB10.005(stat))\xD710-38 cm2 nucleon-1 and the cross section integrated\
+  \ in the region of phase space with largest efficiency and best signal-over-background\
+  \ ratio (cos\u03B8\u03BC>0.6 and p\u03BC>200  MeV) is \u03C3=(0.202\xB10.036(syst)\xB1\
+  0.003(stat))\xD710-38 cm2 nucleon-1."
+data_license:
+  description: The content can be shared and adapted but you must             give
+    appropriate credit and cannot restrict access to others.
+  name: cc-by-4.0
+  url: https://creativecommons.org/licenses/by/4.0/
+---
+data_file: crosssection-costhetamupmu_analysisi.yaml
+description: "\n  Something"
+keywords:
+- name: observables
+  values:
+  - D2SIG/DCOSTHETA/DP
+- name: reactions
+  values:
+  - NUMU C --> MU- P
+- name: phrases
+  values:
+  - Neutrino CC0Pi
+  - Cross Section
+location: Example location
+name: CrossSection-CosThetaMuPMu_AnalysisI
+---
+data_file: covar-costhetamupmu_analysisi.yaml
+description: "\n  Something"
+keywords: []
+location: Example location
+name: Covar-CosThetaMuPMu_AnalysisI
+---
+data_file: crosssection-costhetamupmu_analysisii.yaml
+description: "\n  Something"
+keywords:
+- name: observables
+  values:
+  - D2SIG/DCOSTHETA/DP
+- name: reactions
+  values:
+  - NUMU C --> MU- P
+- name: phrases
+  values:
+  - Neutrino CC0Pi
+  - Cross Section
+location: Example location
+name: CrossSection-CosThetaMuPMu_AnalysisII

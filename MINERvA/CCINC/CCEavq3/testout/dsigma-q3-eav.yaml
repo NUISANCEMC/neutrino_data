@@ -1,0 +1,363 @@
+dependent_variables:
+- header:
+    name: dSigma
+    units: d^{2}#sigma/dEav dq_{3} [cm^{2}/nucleon/GeV^{2}]
+  qualifiers:
+  - name: likelihood
+    value: CorrelatedChi2
+  - name: finalize
+    value: FATXNormalized
+  - name: weight
+    value: DefaultWeight
+  - name: targets
+    value: CH
+  - name: species
+    value: numu
+  - name: flux
+    value: inspire:182176
+  - name: Filter
+    value: MINERvA_CCINC_CCEavq3_Filter
+  - name: q3
+    value: MINERvA_CCINC_CCEavq3_Project_q3
+  - name: Eav
+    value: MINERvA_CCINC_CCEavq3_Project_Eav
+  values:
+  - value: 1.24e-42
+  - value: 8.2e-43
+  - value: 4.0e-43
+  - value: 3.58e-42
+  - value: 3.43e-42
+  - value: 2.92e-42
+  - value: 2.1e-42
+  - value: 1.2e-42
+  - value: 6.4e-43
+  - value: 3.5e-43
+  - value: 3.3e-42
+  - value: 3.55e-42
+  - value: 3.78e-42
+  - value: 3.91e-42
+  - value: 3.88e-42
+  - value: 3.33e-42
+  - value: 2.27e-42
+  - value: 1.46e-42
+  - value: 1.01e-42
+  - value: 4.1e-43
+  - value: 2.2e-43
+  - value: 1.3e-43
+  - value: 2.18e-42
+  - value: 2.41e-42
+  - value: 3.03e-42
+  - value: 3.74e-42
+  - value: 4.27e-42
+  - value: 4.71e-42
+  - value: 4.73e-42
+  - value: 4.5e-42
+  - value: 3.24e-42
+  - value: 1.96e-42
+  - value: 9.5e-43
+  - value: 5.7e-43
+  - value: 3.2e-43
+  - value: 7.0e-44
+  - value: 1.49e-42
+  - value: 1.29e-42
+  - value: 1.87e-42
+  - value: 2.51e-42
+  - value: 3.16e-42
+  - value: 3.67e-42
+  - value: 4.21e-42
+  - value: 4.64e-42
+  - value: 4.84e-42
+  - value: 3.77e-42
+  - value: 2.45e-42
+  - value: 1.47e-42
+  - value: 9.2e-43
+  - value: 3.6e-43
+  - value: 4.0e-44
+  - value: 7.2e-43
+  - value: 5.6e-43
+  - value: 6.6e-43
+  - value: 8.7e-43
+  - value: 1.21e-42
+  - value: 1.6e-42
+  - value: 2.07e-42
+  - value: 2.57e-42
+  - value: 3.24e-42
+  - value: 3.71e-42
+  - value: 3.62e-42
+  - value: 2.99e-42
+  - value: 2.11e-42
+  - value: 1.19e-42
+  - value: 4.8e-43
+independent_variables:
+- header:
+    name: q3
+    units: '[GeV/c]'
+  values:
+  - high: 0.2
+    low: 0.0
+  - high: 0.2
+    low: 0.0
+  - high: 0.2
+    low: 0.0
+  - high: 0.2
+    low: 0.0
+  - high: 0.2
+    low: 0.0
+  - high: 0.2
+    low: 0.0
+  - high: 0.2
+    low: 0.0
+  - high: 0.2
+    low: 0.0
+  - high: 0.2
+    low: 0.0
+  - high: 0.2
+    low: 0.0
+  - high: 0.2
+    low: 0.0
+  - high: 0.2
+    low: 0.0
+  - high: 0.2
+    low: 0.0
+  - high: 0.2
+    low: 0.0
+  - high: 0.2
+    low: 0.0
+  - high: 0.3
+    low: 0.2
+  - high: 0.3
+    low: 0.2
+  - high: 0.3
+    low: 0.2
+  - high: 0.3
+    low: 0.2
+  - high: 0.3
+    low: 0.2
+  - high: 0.3
+    low: 0.2
+  - high: 0.3
+    low: 0.2
+  - high: 0.3
+    low: 0.2
+  - high: 0.3
+    low: 0.2
+  - high: 0.3
+    low: 0.2
+  - high: 0.3
+    low: 0.2
+  - high: 0.3
+    low: 0.2
+  - high: 0.3
+    low: 0.2
+  - high: 0.3
+    low: 0.2
+  - high: 0.3
+    low: 0.2
+  - high: 0.3
+    low: 0.2
+  - high: 0.4
+    low: 0.3
+  - high: 0.4
+    low: 0.3
+  - high: 0.4
+    low: 0.3
+  - high: 0.4
+    low: 0.3
+  - high: 0.4
+    low: 0.3
+  - high: 0.4
+    low: 0.3
+  - high: 0.4
+    low: 0.3
+  - high: 0.4
+    low: 0.3
+  - high: 0.4
+    low: 0.3
+  - high: 0.4
+    low: 0.3
+  - high: 0.4
+    low: 0.3
+  - high: 0.4
+    low: 0.3
+  - high: 0.4
+    low: 0.3
+  - high: 0.4
+    low: 0.3
+  - high: 0.4
+    low: 0.3
+  - high: 0.4
+    low: 0.3
+  - high: 0.5
+    low: 0.4
+  - high: 0.5
+    low: 0.4
+  - high: 0.5
+    low: 0.4
+  - high: 0.5
+    low: 0.4
+  - high: 0.5
+    low: 0.4
+  - high: 0.5
+    low: 0.4
+  - high: 0.5
+    low: 0.4
+  - high: 0.5
+    low: 0.4
+  - high: 0.5
+    low: 0.4
+  - high: 0.5
+    low: 0.4
+  - high: 0.5
+    low: 0.4
+  - high: 0.5
+    low: 0.4
+  - high: 0.5
+    low: 0.4
+  - high: 0.5
+    low: 0.4
+  - high: 0.5
+    low: 0.4
+  - high: 0.5
+    low: 0.4
+  - high: 0.6
+    low: 0.5
+  - high: 0.6
+    low: 0.5
+  - high: 0.6
+    low: 0.5
+- header:
+    name: Eav
+    units: '[GeV/c]'
+  values:
+  - high: 0.02
+    low: 0.0
+  - high: 0.02
+    low: 0.0
+  - high: 0.02
+    low: 0.0
+  - high: 0.02
+    low: 0.0
+  - high: 0.02
+    low: 0.0
+  - high: 0.02
+    low: 0.0
+  - high: 0.02
+    low: 0.0
+  - high: 0.02
+    low: 0.0
+  - high: 0.02
+    low: 0.0
+  - high: 0.02
+    low: 0.0
+  - high: 0.02
+    low: 0.0
+  - high: 0.02
+    low: 0.0
+  - high: 0.02
+    low: 0.0
+  - high: 0.02
+    low: 0.0
+  - high: 0.02
+    low: 0.0
+  - high: 0.04
+    low: 0.02
+  - high: 0.04
+    low: 0.02
+  - high: 0.04
+    low: 0.02
+  - high: 0.04
+    low: 0.02
+  - high: 0.04
+    low: 0.02
+  - high: 0.04
+    low: 0.02
+  - high: 0.04
+    low: 0.02
+  - high: 0.04
+    low: 0.02
+  - high: 0.04
+    low: 0.02
+  - high: 0.04
+    low: 0.02
+  - high: 0.04
+    low: 0.02
+  - high: 0.04
+    low: 0.02
+  - high: 0.04
+    low: 0.02
+  - high: 0.04
+    low: 0.02
+  - high: 0.04
+    low: 0.02
+  - high: 0.04
+    low: 0.02
+  - high: 0.06
+    low: 0.04
+  - high: 0.06
+    low: 0.04
+  - high: 0.06
+    low: 0.04
+  - high: 0.06
+    low: 0.04
+  - high: 0.06
+    low: 0.04
+  - high: 0.06
+    low: 0.04
+  - high: 0.06
+    low: 0.04
+  - high: 0.06
+    low: 0.04
+  - high: 0.06
+    low: 0.04
+  - high: 0.06
+    low: 0.04
+  - high: 0.06
+    low: 0.04
+  - high: 0.06
+    low: 0.04
+  - high: 0.06
+    low: 0.04
+  - high: 0.06
+    low: 0.04
+  - high: 0.06
+    low: 0.04
+  - high: 0.06
+    low: 0.04
+  - high: 0.08
+    low: 0.06
+  - high: 0.08
+    low: 0.06
+  - high: 0.08
+    low: 0.06
+  - high: 0.08
+    low: 0.06
+  - high: 0.08
+    low: 0.06
+  - high: 0.08
+    low: 0.06
+  - high: 0.08
+    low: 0.06
+  - high: 0.08
+    low: 0.06
+  - high: 0.08
+    low: 0.06
+  - high: 0.08
+    low: 0.06
+  - high: 0.08
+    low: 0.06
+  - high: 0.08
+    low: 0.06
+  - high: 0.08
+    low: 0.06
+  - high: 0.08
+    low: 0.06
+  - high: 0.08
+    low: 0.06
+  - high: 0.08
+    low: 0.06
+  - high: 0.1
+    low: 0.08
+  - high: 0.1
+    low: 0.08
+  - high: 0.1
+    low: 0.08

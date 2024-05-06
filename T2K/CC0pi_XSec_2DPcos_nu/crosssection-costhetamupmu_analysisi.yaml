@@ -1,0 +1,365 @@
+dependent_variables:
+- header:
+    name: CrossSection
+    units: $10^{-38}$ cm${}^{2}/GeV /Nucleon$
+  qualifiers:
+  - name: default_types
+    value: FIX/FULL
+  - name: allowed_types
+    value: FULL,DIAG/FREE,SHAPE,FIX/SYSTCOV/STATCOV
+  - name: allowed_targets
+    value: C,H
+  - name: allowed_species
+    value: numu
+  - name: suggested_flux
+    value: inspire:xxxxxx
+  - name: Filter
+    value: T2K_CC0pi_XSec_2DPcos_nu_Filter
+  - name: CosThetaMu
+    value: T2K_CC0pi_XSec_2DPcos_nu_Project_CosThetaMu
+  - name: PMu
+    value: T2K_CC0pi_XSec_2DPcos_nu_I_Project_PMu
+  values:
+  - value: 0.25539
+  - value: 0.20795
+  - value: 0.00027181
+  - value: 0.20846
+  - value: 0.72443
+  - value: 0.55185
+  - value: 0.23411
+  - value: 0.00036868
+  - value: 0.17867
+  - value: 0.63844
+  - value: 0.7147
+  - value: 0.93575
+  - value: 0.64684
+  - value: 0.071505
+  - value: 0.00047612
+  - value: 0.10422
+  - value: 0.49064
+  - value: 0.8246
+  - value: 0.91553
+  - value: 0.77516
+  - value: 0.25549
+  - value: 0.0021941
+  - value: 0.13071
+  - value: 0.49492
+  - value: 0.76077
+  - value: 0.92914
+  - value: 0.60526
+  - value: 0.47801
+  - value: 0.33054
+  - value: 0.001706
+  - value: 0.051962
+  - value: 0.38373
+  - value: 0.74368
+  - value: 0.86393
+  - value: 1.0289
+  - value: 0.46553
+  - value: 0.2889
+  - value: 0.17484
+  - value: 0.00050612
+  - value: 0.11857
+  - value: 0.65224
+  - value: 0.82172
+  - value: 0.47462
+  - value: 0.58487
+  - value: 0.3518
+  - value: 0.11331
+  - value: 0.0015239
+  - value: 0.097187
+  - value: 0.36197
+  - value: 0.61829
+  - value: 0.81495
+  - value: 0.51946
+  - value: 0.55424
+  - value: 0.39012
+  - value: 0.2589
+  - value: 0.31096
+  - value: 0.11562
+  - value: 0.0039336
+  - value: 0.13059
+  - value: 0.22585
+  - value: 0.33886
+  - value: 0.30196
+  - value: 0.11795
+  - value: 0.23981
+  - value: 0.28318
+  - value: 0.28104
+  - value: 0.01282
+independent_variables:
+- header:
+    name: CosThetaMu
+  values:
+  - high: 0.0
+    low: -1.0
+  - high: 0.0
+    low: -1.0
+  - high: 0.0
+    low: -1.0
+  - high: 0.6
+    low: 0.0
+  - high: 0.6
+    low: 0.0
+  - high: 0.6
+    low: 0.0
+  - high: 0.6
+    low: 0.0
+  - high: 0.6
+    low: 0.0
+  - high: 0.7
+    low: 0.6
+  - high: 0.7
+    low: 0.6
+  - high: 0.7
+    low: 0.6
+  - high: 0.7
+    low: 0.6
+  - high: 0.7
+    low: 0.6
+  - high: 0.7
+    low: 0.6
+  - high: 0.7
+    low: 0.6
+  - high: 0.8
+    low: 0.7
+  - high: 0.8
+    low: 0.7
+  - high: 0.8
+    low: 0.7
+  - high: 0.8
+    low: 0.7
+  - high: 0.8
+    low: 0.7
+  - high: 0.8
+    low: 0.7
+  - high: 0.8
+    low: 0.7
+  - high: 0.85
+    low: 0.8
+  - high: 0.85
+    low: 0.8
+  - high: 0.85
+    low: 0.8
+  - high: 0.85
+    low: 0.8
+  - high: 0.85
+    low: 0.8
+  - high: 0.85
+    low: 0.8
+  - high: 0.85
+    low: 0.8
+  - high: 0.85
+    low: 0.8
+  - high: 0.9
+    low: 0.85
+  - high: 0.9
+    low: 0.85
+  - high: 0.9
+    low: 0.85
+  - high: 0.9
+    low: 0.85
+  - high: 0.9
+    low: 0.85
+  - high: 0.9
+    low: 0.85
+  - high: 0.9
+    low: 0.85
+  - high: 0.9
+    low: 0.85
+  - high: 0.9
+    low: 0.85
+  - high: 0.94
+    low: 0.9
+  - high: 0.94
+    low: 0.9
+  - high: 0.94
+    low: 0.9
+  - high: 0.94
+    low: 0.9
+  - high: 0.94
+    low: 0.9
+  - high: 0.94
+    low: 0.9
+  - high: 0.94
+    low: 0.9
+  - high: 0.94
+    low: 0.9
+  - high: 0.98
+    low: 0.94
+  - high: 0.98
+    low: 0.94
+  - high: 0.98
+    low: 0.94
+  - high: 0.98
+    low: 0.94
+  - high: 0.98
+    low: 0.94
+  - high: 0.98
+    low: 0.94
+  - high: 0.98
+    low: 0.94
+  - high: 0.98
+    low: 0.94
+  - high: 0.98
+    low: 0.94
+  - high: 0.98
+    low: 0.94
+  - high: 0.98
+    low: 0.94
+  - high: 1.0
+    low: 0.98
+  - high: 1.0
+    low: 0.98
+  - high: 1.0
+    low: 0.98
+  - high: 1.0
+    low: 0.98
+  - high: 1.0
+    low: 0.98
+  - high: 1.0
+    low: 0.98
+  - high: 1.0
+    low: 0.98
+  - high: 1.0
+    low: 0.98
+  - high: 1.0
+    low: 0.98
+- header:
+    name: PMu
+    units: GeV/c
+  values:
+  - high: 0.3
+    low: 0.0
+  - high: 0.4
+    low: 0.3
+  - high: 30.0
+    low: 0.4
+  - high: 0.3
+    low: 0.0
+  - high: 0.4
+    low: 0.3
+  - high: 0.5
+    low: 0.4
+  - high: 0.6
+    low: 0.5
+  - high: 30.0
+    low: 0.6
+  - high: 0.3
+    low: 0.0
+  - high: 0.4
+    low: 0.3
+  - high: 0.5
+    low: 0.4
+  - high: 0.6
+    low: 0.5
+  - high: 0.7
+    low: 0.6
+  - high: 0.8
+    low: 0.7
+  - high: 30.0
+    low: 0.8
+  - high: 0.3
+    low: 0.0
+  - high: 0.4
+    low: 0.3
+  - high: 0.5
+    low: 0.4
+  - high: 0.6
+    low: 0.5
+  - high: 0.7
+    low: 0.6
+  - high: 0.8
+    low: 0.7
+  - high: 30.0
+    low: 0.8
+  - high: 0.3
+    low: 0.0
+  - high: 0.4
+    low: 0.3
+  - high: 0.5
+    low: 0.4
+  - high: 0.6
+    low: 0.5
+  - high: 0.7
+    low: 0.6
+  - high: 0.8
+    low: 0.7
+  - high: 1.0
+    low: 0.8
+  - high: 30.0
+    low: 1.0
+  - high: 0.3
+    low: 0.0
+  - high: 0.4
+    low: 0.3
+  - high: 0.5
+    low: 0.4
+  - high: 0.6
+    low: 0.5
+  - high: 0.7
+    low: 0.6
+  - high: 0.8
+    low: 0.7
+  - high: 1.0
+    low: 0.8
+  - high: 1.5
+    low: 1.0
+  - high: 30.0
+    low: 1.5
+  - high: 0.4
+    low: 0.0
+  - high: 0.5
+    low: 0.4
+  - high: 0.6
+    low: 0.5
+  - high: 0.7
+    low: 0.6
+  - high: 0.8
+    low: 0.7
+  - high: 1.25
+    low: 0.8
+  - high: 2.0
+    low: 1.25
+  - high: 30.0
+    low: 2.0
+  - high: 0.4
+    low: 0.0
+  - high: 0.5
+    low: 0.4
+  - high: 0.6
+    low: 0.5
+  - high: 0.7
+    low: 0.6
+  - high: 0.8
+    low: 0.7
+  - high: 1.0
+    low: 0.8
+  - high: 1.25
+    low: 1.0
+  - high: 1.5
+    low: 1.25
+  - high: 2.0
+    low: 1.5
+  - high: 3.0
+    low: 2.0
+  - high: 30.0
+    low: 3.0
+  - high: 0.5
+    low: 0.0
+  - high: 0.6
+    low: 0.5
+  - high: 0.7
+    low: 0.6
+  - high: 0.8
+    low: 0.7
+  - high: 1.25
+    low: 0.8
+  - high: 2.0
+    low: 1.25
+  - high: 3.0
+    low: 2.0
+  - high: 5.0
+    low: 3.0
+  - high: 30.0
+    low: 5.0
