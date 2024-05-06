@@ -1,0 +1,44 @@
+dependent_variables:
+- header:
+    name: DepVar
+    units: Event Counts
+  qualifiers:
+  - name: likelihood
+    value: Poisson
+  - name: scaling
+    value: EventRateScaleToData
+  - name: weighting
+    value: Default
+  - name: targets
+    value: D2
+  - name: species
+    value: numu
+  - name: suggested_flux
+    value: inspire:unknown
+  - name: Filter
+    value: ANL_167744_CC1ppip_Selection_lowW
+  - name: thProt
+    value: ANL_167744_CC1ppip_Project_thpr
+  values:
+  - value: 8.97
+  - value: 19.35
+  - value: 49.63
+  - value: 71.95
+  - value: 112.02
+  - value: 228.29
+independent_variables:
+- header:
+    name: thProt
+  values:
+  - high: 0.5
+    low: 0.4
+  - high: 0.6
+    low: 0.5
+  - high: 0.7
+    low: 0.6
+  - high: 0.8
+    low: 0.7
+  - high: 0.9
+    low: 0.8
+  - high: 1.0
+    low: 0.9

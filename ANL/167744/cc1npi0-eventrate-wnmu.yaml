@@ -16,9 +16,9 @@ dependent_variables:
   - name: suggested_flux
     value: inspire:unknown
   - name: Filter
-    value: ANL_167744_CC1npip_Selection
+    value: ANL_167744_CC1npi0_Selection
   - name: WNmu
-    value: ANL_167744_CC1npip_Project_WNmu
+    value: ANL_167744_CC1npi0_Project_WNmu
   values:
   - value: 3.8502
   - value: 12.49
@@ -39,7 +39,7 @@ dependent_variables:
 independent_variables:
 - header:
     name: WNmu
-    units: WNmu GeV/c^{2}
+    units: GeV
   values:
   - high: 1.08
     low: 1.04

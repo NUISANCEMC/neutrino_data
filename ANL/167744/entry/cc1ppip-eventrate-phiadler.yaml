@@ -1,0 +1,80 @@
+dependent_variables:
+- header:
+    name: DepVar
+    units: Event Counts
+  qualifiers:
+  - name: likelihood
+    value: Poisson
+  - name: scaling
+    value: EventRateScaleToData
+  - name: weighting
+    value: Default
+  - name: targets
+    value: D2
+  - name: species
+    value: numu
+  - name: suggested_flux
+    value: inspire:unknown
+  - name: Filter
+    value: ANL_167744_CC1ppip_Selection_lowW
+  - name: phiAdler
+    value: ANL_167744_CC1ppip_Project_phi
+  values:
+  - value: 58.0
+  - value: 39.0
+  - value: 33.0
+  - value: 43.0
+  - value: 42.0
+  - value: 32.0
+  - value: 34.0
+  - value: 52.0
+  - value: 48.0
+  - value: 52.0
+  - value: 58.0
+  - value: 44.0
+  - value: 36.0
+  - value: 46.0
+  - value: 57.0
+  - value: 45.0
+  - value: 43.0
+  - value: 43.0
+independent_variables:
+- header:
+    name: phiAdler
+  values:
+  - high: 20.0
+    low: 0.0
+  - high: 40.0
+    low: 20.0
+  - high: 60.0
+    low: 40.0
+  - high: 80.0
+    low: 60.0
+  - high: 100.0
+    low: 80.0
+  - high: 120.0
+    low: 100.0
+  - high: 140.0
+    low: 120.0
+  - high: 160.0
+    low: 140.0
+  - high: 180.0
+    low: 160.0
+  - high: 200.0
+    low: 180.0
+  - high: 220.0
+    low: 200.0
+  - high: 240.0
+    low: 220.0
+  - high: 260.0
+    low: 240.0
+  - high: 280.0
+    low: 260.0
+  - high: 300.0
+    low: 280.0
+  - high: 320.0
+    low: 300.0
+  - high: 340.0
+    low: 320.0
+  - high: 360.0
+    low: 340.0

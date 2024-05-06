@@ -16,7 +16,7 @@ dependent_variables:
   - name: suggested_flux
     value: inspire:unknown
   - name: Filter
-    value: ANL_167744_CC1npip_Filter_CC1pi3Prong
+    value: ANL_167744_CC1npip_Selection
   - name: cosmuStar
     value: ANL_167744_CC1npip_Project_cosmuStar
   values:

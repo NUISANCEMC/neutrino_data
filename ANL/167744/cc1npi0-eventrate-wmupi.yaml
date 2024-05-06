@@ -16,32 +16,32 @@ dependent_variables:
   - name: suggested_flux
     value: inspire:unknown
   - name: Filter
-    value: ANL_167744_CC1npip_Selection
+    value: ANL_167744_CC1npi0_Selection
   - name: Wmupi
-    value: ANL_167744_CC1npip_Project_Wmupi
+    value: ANL_167744_CC1npi0_Project_Wmupi
   values:
-  - value: 9.8638
-  - value: 18.911
-  - value: 28.833
-  - value: 23.755
-  - value: 9.4553
-  - value: 20.019
-  - value: 12.257
-  - value: 23.93
-  - value: 13.482
-  - value: 7.5292
-  - value: 5.6615
-  - value: 10.331
-  - value: 8.1128
-  - value: 3.9689
-  - value: 3.2685
-  - value: 0.87549
-  - value: 1.6926
-  - value: 0.75875
+  - value: 4.5349
+  - value: 12.5
+  - value: 11.57
+  - value: 15.0
+  - value: 19.884
+  - value: 25.0
+  - value: 18.081
+  - value: 17.616
+  - value: 13.779
+  - value: 18.198
+  - value: 10.988
+  - value: 7.7907
+  - value: 7.7907
+  - value: 5.8721
+  - value: 2.907
+  - value: 5.407
+  - value: 0.93023
+  - value: 0.93023
 independent_variables:
 - header:
     name: Wmupi
-    units: GeV/c^{2}
+    units: GeV
   values:
   - high: 0.28
     low: 0.24

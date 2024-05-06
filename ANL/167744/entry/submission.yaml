@@ -168,3 +168,343 @@ keywords:
 location: Example location
 name: cc1npip-eventrate-wnpi
 related_to_table_dois: []
+---
+data_file: cc1npi0-eventrate-cosmustar.yaml
+description: "\n  EventRate for CC1npi0 Measurement binned in cosmustar\n  Comparisons\
+  \ should be shape only comparing to\n  statistical errors.\n  "
+keywords:
+- name: observables
+  values:
+  - EVENTS
+- name: reactions
+  values:
+  - MU- + n --> MU- + pi0
+- name: phrases
+  values:
+  - Neutrino
+  - CC1npi0
+  - cosmustar
+  - EventRate
+location: Example location
+name: cc1npi0-eventrate-cosmustar
+related_to_table_dois: []
+---
+data_file: cc1npi0-eventrate-q2-loww.yaml
+description: "\n  EventRate for CC1npi0 Measurement binned in Q2-lowW\n  Comparisons\
+  \ should be shape only comparing to\n  statistical errors.\n  "
+keywords:
+- name: observables
+  values:
+  - EVENTS
+- name: reactions
+  values:
+  - MU- + n --> MU- + pi0
+- name: phrases
+  values:
+  - Neutrino
+  - CC1npi0
+  - Q2-lowW
+  - EventRate
+location: Example location
+name: cc1npi0-eventrate-q2-loww
+related_to_table_dois: []
+---
+data_file: cc1npi0-eventrate-q2.yaml
+description: "\n  EventRate for CC1npi0 Measurement binned in Q2\n  Comparisons should\
+  \ be shape only comparing to\n  statistical errors.\n  "
+keywords:
+- name: observables
+  values:
+  - EVENTS
+- name: reactions
+  values:
+  - MU- + n --> MU- + pi0
+- name: phrases
+  values:
+  - Neutrino
+  - CC1npi0
+  - Q2
+  - EventRate
+location: Example location
+name: cc1npi0-eventrate-q2
+related_to_table_dois: []
+---
+data_file: cc1npi0-eventrate-wmupi.yaml
+description: "\n  EventRate for CC1npi0 Measurement binned in Wmupi\n  Comparisons\
+  \ should be shape only comparing to\n  statistical errors.\n  "
+keywords:
+- name: observables
+  values:
+  - EVENTS
+- name: reactions
+  values:
+  - MU- + n --> MU- + pi0
+- name: phrases
+  values:
+  - Neutrino
+  - CC1npi0
+  - Wmupi
+  - EventRate
+location: Example location
+name: cc1npi0-eventrate-wmupi
+related_to_table_dois: []
+---
+data_file: cc1npi0-eventrate-wnmu.yaml
+description: "\n  EventRate for CC1npi0 Measurement binned in WNmu\n  Comparisons\
+  \ should be shape only comparing to\n  statistical errors.\n  "
+keywords:
+- name: observables
+  values:
+  - EVENTS
+- name: reactions
+  values:
+  - MU- + n --> MU- + pi0
+- name: phrases
+  values:
+  - Neutrino
+  - CC1npi0
+  - WNmu
+  - EventRate
+location: Example location
+name: cc1npi0-eventrate-wnmu
+related_to_table_dois: []
+---
+data_file: cc1npi0-eventrate-wnpi.yaml
+description: "\n  EventRate for CC1npi0 Measurement binned in WNpi\n  Comparisons\
+  \ should be shape only comparing to\n  statistical errors.\n  "
+keywords:
+- name: observables
+  values:
+  - EVENTS
+- name: reactions
+  values:
+  - MU- + n --> MU- + pi0
+- name: phrases
+  values:
+  - Neutrino
+  - CC1npi0
+  - WNpi
+  - EventRate
+location: Example location
+name: cc1npi0-eventrate-wnpi
+related_to_table_dois: []
+---
+data_file: cc1ppip-eventrate-cosmustar.yaml
+description: "\n  EventRate for CC1ppip Measurement binned in cosmustar\n  Comparisons\
+  \ should be shape only comparing to\n  statistical errors.\n  "
+keywords:
+- name: observables
+  values:
+  - EVENTS
+- name: reactions
+  values:
+  - MU- + p --> MU- + pip
+- name: phrases
+  values:
+  - Neutrino
+  - CC1ppip
+  - cosmustar
+  - EventRate
+location: Example location
+name: cc1ppip-eventrate-cosmustar
+related_to_table_dois: []
+---
+data_file: cc1ppip-eventrate-costhadler.yaml
+description: "\n  EventRate for CC1ppip Measurement binned in costhAdler\n  Comparisons\
+  \ should be shape only comparing to\n  statistical errors.\n  "
+keywords:
+- name: observables
+  values:
+  - EVENTS
+- name: reactions
+  values:
+  - MU- + p --> MU- + pip
+- name: phrases
+  values:
+  - Neutrino
+  - CC1ppip
+  - costhAdler
+  - EventRate
+location: Example location
+name: cc1ppip-eventrate-costhadler
+related_to_table_dois: []
+---
+data_file: cc1ppip-eventrate-phiadler.yaml
+description: "\n  EventRate for CC1ppip Measurement binned in phiAdler\n  Comparisons\
+  \ should be shape only comparing to\n  statistical errors.\n  "
+keywords:
+- name: observables
+  values:
+  - EVENTS
+- name: reactions
+  values:
+  - MU- + p --> MU- + pip
+- name: phrases
+  values:
+  - Neutrino
+  - CC1ppip
+  - phiAdler
+  - EventRate
+location: Example location
+name: cc1ppip-eventrate-phiadler
+related_to_table_dois: []
+---
+data_file: cc1ppip-eventrate-ppi.yaml
+description: "\n  EventRate for CC1ppip Measurement binned in ppi\n  Comparisons should\
+  \ be shape only comparing to\n  statistical errors.\n  "
+keywords:
+- name: observables
+  values:
+  - EVENTS
+- name: reactions
+  values:
+  - MU- + p --> MU- + pip
+- name: phrases
+  values:
+  - Neutrino
+  - CC1ppip
+  - ppi
+  - EventRate
+location: Example location
+name: cc1ppip-eventrate-ppi
+related_to_table_dois: []
+---
+data_file: cc1ppip-eventrate-q2-loww.yaml
+description: "\n  EventRate for CC1ppip Measurement binned in Q2-lowW\n  Comparisons\
+  \ should be shape only comparing to\n  statistical errors.\n  "
+keywords:
+- name: observables
+  values:
+  - EVENTS
+- name: reactions
+  values:
+  - MU- + p --> MU- + pip
+- name: phrases
+  values:
+  - Neutrino
+  - CC1ppip
+  - Q2-lowW
+  - EventRate
+location: Example location
+name: cc1ppip-eventrate-q2-loww
+related_to_table_dois: []
+---
+data_file: cc1ppip-eventrate-q2.yaml
+description: "\n  EventRate for CC1ppip Measurement binned in Q2\n  Comparisons should\
+  \ be shape only comparing to\n  statistical errors.\n  "
+keywords:
+- name: observables
+  values:
+  - EVENTS
+- name: reactions
+  values:
+  - MU- + p --> MU- + pip
+- name: phrases
+  values:
+  - Neutrino
+  - CC1ppip
+  - Q2
+  - EventRate
+location: Example location
+name: cc1ppip-eventrate-q2
+related_to_table_dois: []
+---
+data_file: cc1ppip-eventrate-thprot.yaml
+description: "\n  EventRate for CC1ppip Measurement binned in thProt\n  Comparisons\
+  \ should be shape only comparing to\n  statistical errors.\n  "
+keywords:
+- name: observables
+  values:
+  - EVENTS
+- name: reactions
+  values:
+  - MU- + p --> MU- + pip
+- name: phrases
+  values:
+  - Neutrino
+  - CC1ppip
+  - thProt
+  - EventRate
+location: Example location
+name: cc1ppip-eventrate-thprot
+related_to_table_dois: []
+---
+data_file: cc1ppip-eventrate-wmupi.yaml
+description: "\n  EventRate for CC1ppip Measurement binned in Wmupi\n  Comparisons\
+  \ should be shape only comparing to\n  statistical errors.\n  "
+keywords:
+- name: observables
+  values:
+  - EVENTS
+- name: reactions
+  values:
+  - MU- + p --> MU- + pip
+- name: phrases
+  values:
+  - Neutrino
+  - CC1ppip
+  - Wmupi
+  - EventRate
+location: Example location
+name: cc1ppip-eventrate-wmupi
+related_to_table_dois: []
+---
+data_file: cc1ppip-eventrate-wnmu.yaml
+description: "\n  EventRate for CC1ppip Measurement binned in WNmu\n  Comparisons\
+  \ should be shape only comparing to\n  statistical errors.\n  "
+keywords:
+- name: observables
+  values:
+  - EVENTS
+- name: reactions
+  values:
+  - MU- + p --> MU- + pip
+- name: phrases
+  values:
+  - Neutrino
+  - CC1ppip
+  - WNmu
+  - EventRate
+location: Example location
+name: cc1ppip-eventrate-wnmu
+related_to_table_dois: []
+---
+data_file: cc1ppip-eventrate-wnpi.yaml
+description: "\n  EventRate for CC1ppip Measurement binned in WNpi\n  Comparisons\
+  \ should be shape only comparing to\n  statistical errors.\n  "
+keywords:
+- name: observables
+  values:
+  - EVENTS
+- name: reactions
+  values:
+  - MU- + p --> MU- + pip
+- name: phrases
+  values:
+  - Neutrino
+  - CC1ppip
+  - WNpi
+  - EventRate
+location: Example location
+name: cc1ppip-eventrate-wnpi
+related_to_table_dois: []
+---
+data_file: cc1ppip-dsigma-q2.yaml
+description: "\n  dSigma for CC1ppip Measurement binned in Q2\n  Comparisons should\
+  \ be shape only comparing to\n  statistical errors.\n  "
+keywords:
+- name: observables
+  values:
+  - dSIGMA
+- name: reactions
+  values:
+  - MU- + p --> MU- + pip
+- name: phrases
+  values:
+  - Neutrino
+  - CC1ppip
+  - Q2
+  - dSigma
+location: Example location
+name: cc1ppip-dsigma-q2
+related_to_table_dois: []

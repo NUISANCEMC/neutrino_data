@@ -16,42 +16,36 @@ dependent_variables:
   - name: suggested_flux
     value: inspire:unknown
   - name: Filter
-    value: ANL_167744_CC1npip_Selection
+    value: ANL_167744_CC1ppip_Selection
   - name: WNpi
-    value: ANL_167744_CC1npip_Project_WNpi
+    value: ANL_167744_CC1ppip_Project_WNpi
   values:
-  - value: 4.8348
-  - value: 6.8407
-  - value: 8.8465
-  - value: 13.687
-  - value: 11.795
-  - value: 13.801
-  - value: 26.083
-  - value: 14.978
-  - value: 23.835
-  - value: 10.959
-  - value: 8.9486
-  - value: 9.7738
-  - value: 6.1104
-  - value: 8.943
-  - value: 2.9173
-  - value: 3.9784
-  - value: 3.9784
-  - value: 0.90362
-  - value: 5.5079
-  - value: 2.7894
-  - value: 3.7322
-  - value: 1.1318
-  - value: 2.0749
-  - value: 2.0727
-  - value: 1.3622
+  - value: 3.1853
+  - value: 11.583
+  - value: 22.008
+  - value: 47.49
+  - value: 74.131
+  - value: 110.62
+  - value: 122.78
+  - value: 86.873
+  - value: 58.494
+  - value: 48.069
+  - value: 28.958
+  - value: 23.745
+  - value: 14.479
+  - value: 9.2664
+  - value: 8.9768
+  - value: 8.1081
+  - value: 2.3166
+  - value: 2.3166
+  - value: 0.28958
+  - value: 2.8958
+  - value: 1.7375
+  - value: 1.0
 independent_variables:
 - header:
     name: WNpi
-    units: GeV/c^{2}
   values:
-  - high: 1.1
-    low: 1.08
   - high: 1.12
     low: 1.1
   - high: 1.14
@@ -88,8 +82,6 @@ independent_variables:
     low: 1.42
   - high: 1.46
     low: 1.44
-  - high: 1.48
-    low: 1.46
   - high: 1.5
     low: 1.48
   - high: 1.52
@@ -98,5 +90,3 @@ independent_variables:
     low: 1.52
   - high: 1.56
     low: 1.54
-  - high: 1.58
-    low: 1.56

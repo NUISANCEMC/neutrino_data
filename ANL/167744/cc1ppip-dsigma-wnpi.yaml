@@ -1,0 +1,53 @@
+dependent_variables:
+- header:
+    name: DepVar
+    units: XSec
+  qualifiers:
+  - name: likelihood
+    value: Poisson
+  - name: scaling
+    value: EventRateScaleToData
+  - name: weighting
+    value: Default
+  - name: targets
+    value: D2
+  - name: species
+    value: numu
+  - name: suggested_flux
+    value: inspire:unknown
+  - name: Filter
+    value: ANL_167744_CC1ppip_Selection_lowW
+  - name: WNpi
+    value: ANL_167744_CC1ppip_Project_Q2
+  values:
+  - value: 5.27e-39
+  - value: 7.24e-39
+  - value: 6.56e-39
+  - value: 5.46e-39
+  - value: 4.17e-39
+  - value: 3.07e-39
+  - value: 2.15e-39
+  - value: 1.38e-39
+  - value: 6.9e-40
+independent_variables:
+- header:
+    name: WNpi
+  values:
+  - high: 0.05
+    low: 0.012
+  - high: 0.1
+    low: 0.05
+  - high: 0.2
+    low: 0.1
+  - high: 0.3
+    low: 0.2
+  - high: 0.4
+    low: 0.3
+  - high: 0.5
+    low: 0.4
+  - high: 0.6
+    low: 0.5
+  - high: 0.8
+    low: 0.6
+  - high: 1.0
+    low: 0.8

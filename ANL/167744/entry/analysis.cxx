@@ -1,26 +1,149 @@
 #include "HepMC3/GenEvent.h"
 #include "HepMC3/FourVector.h"
-extern "C" {
+
+#define Dot(u,v)  (u.x()*v.x() + u.y()*v.y() + u.z()*v.z())
+
+HepMC3::FourVector Cross(const HepMC3::FourVector& v1,
+    const HepMC3::FourVector& v2) {
+    return HepMC3::FourVector(
+    v1.y()*v2.z()-v2.y()*v1.z(),
+    v1.z()*v2.x()-v2.z()*v1.x(),
+    v1.x()*v2.y()-v2.x()*v1.y(),
+    0.0);
+}
 
 // HELPERS
-FourVector BoostVector(const FourVector& vecin, const FourVector& boost) {
-    return vecin;
+HepMC3::FourVector BoostVector(
+    const HepMC3::FourVector& v1,
+    const HepMC3::FourVector& boost) {
+
+    HepMC3::FourVector vo;
+
+    // Boost this Lorentz vector
+    double bx = boost.x();
+    double by = boost.y();
+    double bz = boost.z();
+
+    double b2 = bx*bx + by*by + bz*bz;
+    double gamma = 1.0 / sqrt(1.0 - b2);
+    double bp = bx*v1.x() + by*v1.y() + bz*v1.z();
+    double gamma2 = b2 > 0 ? (gamma - 1.0)/b2 : 0.0;
+    
+    vo.set_x(v1.x() + gamma2*bp*bx + gamma*bx*v1.e());
+    vo.set_y(v1.y() + gamma2*bp*by + gamma*by*v1.e());
+    vo.set_z(v1.z() + gamma2*bp*bz + gamma*bz*v1.e());
+    vo.set_e(gamma*(v1.e() + bp));
+
+    return vo;
 }
 
-double CosAngle(const FourVector& v1, const FourVector &v2) {
-    return 0.0;
+double Angle(const HepMC3::FourVector& v1, const HepMC3::FourVector &q) {
+    double ptot2 = v1.length2()*q.length2();
+    if (ptot2 <= 0) {
+        return 0.0;
+    } else {
+        double arg = Dot(v1, q)/sqrt(ptot2);
+        if (arg >  1.0) arg =  1.0;
+        if (arg < -1.0) arg = -1.0;
+        return acos(arg);
+    }
 }
 
-double HadronicMass_NucleonPi(const FourVector&  Pn, const FourVector& Ppip) {
-    return 0.0;
+double CosAngle(const HepMC3::FourVector& v1, const HepMC3::FourVector &v2) {
+    return cos(Angle(v1, v2));
 }
+
+double InvariantMass(const HepMC3::FourVector& pp, const HepMC3::FourVector& ppi) {
+
+    double E_p = pp.e();
+    double p_p = pp.length();
+    double m_p = sqrt(E_p * E_p - p_p * p_p);
+
+    double E_pi = ppi.e();
+    double p_pi = ppi.length();
+    double m_pi = sqrt(E_pi * E_pi - p_pi * p_pi);
+
+    double th_p_pi = Angle(pp, ppi);
+
+    // fairly easy thing to derive since bubble chambers measure the proton!
+    double invMass = sqrt(m_p * m_p + m_pi * m_pi + 2 * E_p * E_pi -
+                            2 * p_pi * p_p * cos(th_p_pi));
+
+    return invMass;
+
+};
+
+double CosThAdler(const HepMC3::FourVector& Pnu, const HepMC3::FourVector& Pmu,
+    const HepMC3::FourVector& Ppi, const HepMC3::FourVector& Pprot) {
+
+    // Get the "resonance" lorentz vector (pion proton system)
+    HepMC3::FourVector Pres = Pprot + Ppi;
+
+    // Boost the particles into the resonance rest frame so we can define the
+    // x,y,z axis
+    auto Pnub = BoostVector(Pnu, Pres * -1.0);
+    auto Pmub = BoostVector(Pmu, Pres * -1.0);
+    auto Ppib = BoostVector(Ppi, Pres * -1.0);
+
+    // The z-axis is defined as the axis of three-momentum transfer, \vec{k}
+    // Also unit normalise the axis
+    auto zAxis = (Pnu - Pmu);
+    zAxis *= 1.0 / zAxis.length();
+
+    // Then the angle between the pion in the "resonance" rest-frame and the
+    // z-axis is the theta Adler angle
+    double costhAdler = CosAngle(Ppi, zAxis);
+
+    return costhAdler;
+}
+
+double PhiAdler(const HepMC3::FourVector& Pnu, const HepMC3::FourVector& Pmu,
+    const HepMC3::FourVector& Ppi, const HepMC3::FourVector& Pprot) {
+
+    // Get the "resonance" lorentz vector (pion proton system)
+    HepMC3::FourVector Pres = Pprot + Ppi;
+
+    // Boost the particles into the resonance rest frame so we can define the
+    // x,y,z axis
+    auto Pnub = BoostVector(Pnu, Pres * -1.0);
+    auto Pmub = BoostVector(Pmu, Pres * -1.0);
+    auto Ppib = BoostVector(Ppi, Pres * -1.0);
+
+    // The z-axis is defined as the axis of three-momentum transfer, \vec{k}
+    // Also unit normalise the axis
+    auto zAxis = (Pnu - Pmu);
+    zAxis *= 1.0 / zAxis.length();
+
+    // The y-axis is then defined perpendicular to z and muon momentum in the
+    // resonance frame
+    auto yAxis = Cross(Pnu, Pmu);
+    yAxis /= yAxis.length();
+
+    // And the x-axis is then simply perpendicular to z and x
+    auto xAxis = Cross(yAxis, zAxis);
+    xAxis /= xAxis.length();
+
+    // Project the pion on to x and y axes
+    double x = Dot(Ppi, xAxis);
+    double y = Dot(Ppi, yAxis);
+
+    double newphi = atan2(y, x) * (180. / M_PI);
+    // Convert negative angles to positive
+    if (newphi < 0.0)
+        newphi += 360.0;
+
+    return newphi;
+}
+
+namespace ANL {
+namespace inspire167744 {
 
 bool isCC1pi3Prong(HepMC3::GenEvent const &ev,
     int nuPDG, int piPDG, int thirdPDG,
     double EnuMin, double EnuMax) {
 
     auto nu = ps::sel::Beam(ev, nuPDG);
-    auto in = ps::sel::Target(ev, thirdPDG);
+    auto in = ps::sel::Target(ev);
 
     auto mu = ps::sel::OutPartHM(ev, nuPDG > 0 ? nuPDG-1 : nuPDG+1);
     auto pip = ps::sel::OutPartHM(ev, piPDG);
@@ -30,14 +153,17 @@ bool isCC1pi3Prong(HepMC3::GenEvent const &ev,
         return 0xdeadbeef;
     }
 
-    if (EnuMin != EnuMax){
-        if (nu.momentum().e() < EnuMin) return false;
-        if (nu.momentum().e() < EnuMax) return false;
+    if (EnuMin != EnuMax) {
+        if (nu->momentum().e() < EnuMin) return false;
+        if (nu->momentum().e() < EnuMax) return false;
     }
-    
-    int nMesons  = ps::sel::OutPartAny(ev, ps::pdg::kPiPlus).size();
-    int nLeptons = ps::sel::OutPartAny(ev, ps::pdg::kPiPlus).size();
-    int nPion    = ps::sel::OutPartAny(ev, ps::pdg::kPiPlus).size();
+
+    int nMesons  = ps::sel::OutPartsAny(ev, {211, -211, 111}).size();
+
+    int nLeptons = ps::sel::OutPartsAny(ev,
+        ps::pdg::groups::kChargedLeptons).size();
+
+    int nPion    = ps::sel::OutPartsAny(ev, {piPDG}).size();
 
     // Check that the desired pion exists and is the only meson
     if (nPion != 1 || nMesons != 1) return false;
@@ -46,172 +172,364 @@ bool isCC1pi3Prong(HepMC3::GenEvent const &ev,
     if (nLeptons != 1) return false;
 
     // Check that there are only three FS particles
-    // if (event->NumFSParticle() != 3) return false; // Unsure how to do this.
+    // if (ps::sel::OutParts(ev,) != 3) return false; // Unsure how to do this.
 
     return true;
 }
 
+int HadMassCut(HepMC3::GenEvent const &ev,
+    int pion_pdg,
+    int nucleon_pdg,
+    double hadronic_mass_cut) {
 
-int ANL_167744_CC1npip_Filter_CC1pi3Prong(HepMC3::GenEvent const &ev) {
-    return isCC1pi3Prong(ev, 14, 211, 2112, 0.0 * ps::GeV, 1.5 * ps::GeV);
-}
+    auto pp = ps::sel::OutPartHM(ev, nucleon_pdg)->momentum();
+    auto ppi = ps::sel::OutPartHM(ev, pion_pdg)->momentum();
 
-int ANL_167744_CC1npip_Filter_CC1pi3Prong_HadMass() {
-    if (!ANL_167744_CC1npip_Filter_CC1pi3Prong()) return 0;
-    // return HadMassCut();
+    double mm = InvariantMass(pp, ppi);
+    if (mm > hadronic_mass_cut) return 0;
     return 1;
 }
 
+}
+}
+
+using namespace ANL;
+using namespace inspire167744;
+
+extern "C" {
+// ANL_167744_CC1npip Analysis
+int ANL_167744_CC1npip_Selection(HepMC3::GenEvent const &ev) {
+    return isCC1pi3Prong(ev, 14, 211, 2112, 0.0 * ps::GeV, 1.5 * ps::GeV);
+}
+
+int ANL_167744_CC1npip_Selection_lowW(HepMC3::GenEvent const &ev) {
+    if (!ANL_167744_CC1npip_Selection(ev)) return 0;
+    if (!HadMassCut(ev, 211, 2112, 1.4 * ps::GeV)) return 0;
+    return 1;
+}
 
 double ANL_167744_CC1npip_Project_cosmuStar(HepMC3::GenEvent const &ev) {
+
+    if (!ANL_167744_CC1npip_Selection_lowW(ev)) {
+        return 0xdeadbeef;
+    }
+
     auto nu = ps::sel::Beam(ev, ps::pdg::kNuMu);
-    auto in = ps::sel::Target(ev, ps::pdg::kNeutron);
+    auto in = ps::sel::Target(ev); // Need explicit initial state
     auto mu = ps::sel::OutPartHM(ev, ps::pdg::kMuon);
     auto pip = ps::sel::OutPartHM(ev, ps::pdg::kPiPlus);
     auto n = ps::sel::OutPartHM(ev, ps::pdg::kNeutron);
 
-    if (!nu || !in || !mu || !pip || !n) {
-        return 0xdeadbeef;
-    }
-
-    double hadMass = HadronicMass_NucleonPi(n, pip);
-    if (hadMass > 1400 * ps::MeV) {
-        return 0xdeadbeef;
-    }
-
     // Now need to boost into center-of-mass frame
     auto cms = (nu->momentum() + in->momentum());
-    auto pmub = BoostVector(mu->momentum(), -cms);
+    auto pmub = BoostVector(mu->momentum(), cms * -1.0);
     auto pnub = BoostVector(nu->momentum(), cms);
 
     return CosAngle(pmub, pnub);
 }
 
+
+double ANL_167744_CC1npip_Project_ppi(HepMC3::GenEvent const &ev) {
+
+    if (!ANL_167744_CC1npip_Selection_lowW(ev)) {
+        return 0xdeadbeef;
+    }
+
+    auto Pnu  = ps::sel::Beam(ev, ps::pdg::kNuMu)->momentum();
+    auto Pn   = ps::sel::OutPartHM(ev, 2112)->momentum();
+    auto Ppip = ps::sel::OutPartHM(ev, 211)->momentum();
+    auto Pmu  = ps::sel::OutPartHM(ev, 13)->momentum();
+
+    return Ppip.length() * ps::GeV;
 }
 
 
 
+double ANL_167744_CC1npip_Project_Q2(HepMC3::GenEvent const &ev) {
 
-// oid ANL_167744_CC1npip_Project_ppi(FitEvent *event) {
+    if (!ANL_167744_CC1npip_Selection(ev)) {
+        return 0xdeadbeef;
+    }
 
-//   if (event->NumFSParticle(2112) == 0 ||
-//       event->NumFSParticle(211) == 0 ||
-//       event->NumFSParticle(13) == 0)
-//     return;
+    auto Pnu  = ps::sel::Beam(ev, ps::pdg::kNuMu)->momentum();
+    auto Pn   = ps::sel::OutPartHM(ev, 2112)->momentum();
+    auto Ppip = ps::sel::OutPartHM(ev, 211)->momentum();
+    auto Pmu  = ps::sel::OutPartHM(ev, 13)->momentum();
 
-//   TLorentzVector Pnu  = event->GetNeutrinoIn()->fP;
-//   TLorentzVector Pn   = event->GetHMFSParticle(2112)->fP;
-//   TLorentzVector Ppip = event->GetHMFSParticle(211)->fP;
-//   TLorentzVector Pmu  = event->GetHMFSParticle(13)->fP;
+    double q2CCpip = -1.0 * (Pnu - Pmu).length2() / ps::GeV / ps::GeV;
 
-//   double hadMass = FitUtils::MpPi(Pn, Ppip);
-//   double ppip;
+    return q2CCpip;
+};
 
-//   // This measurement has a 1.4 GeV M(Npi) constraint
-//   if (hadMass < 1400) ppip = FitUtils::p(Ppip) * 1000.;
-//   else ppip = -1.0;
-
-//   fXVar = ppip;
-
-//   return;
-// }
+double ANL_167744_CC1npip_Project_Q2_LowW(HepMC3::GenEvent const &ev) {
+    if (!ANL_167744_CC1npip_Selection_lowW(ev)) {
+        return 0xdeadbeef;
+    }
+    return ANL_167744_CC1npip_Project_Q2(ev);
+}
 
 
+double ANL_167744_CC1npip_Project_Wmupi(HepMC3::GenEvent const &ev) {
+    if (!ANL_167744_CC1npip_Selection(ev)) {
+        return 0xdeadbeef;
+    }
 
-// //********************************************************************
-// void ANL_CC1npip_Evt_1DQ2_nu::FillEventVariables(FitEvent *event) {
-// //********************************************************************
+    auto Pmu  = ps::sel::OutPartHM(ev, 13)->momentum();
+    auto Ppip = ps::sel::OutPartHM(ev, 211)->momentum();
 
-//   if (event->NumFSParticle(2112) == 0 || event->NumFSParticle(211) == 0 || event->NumFSParticle(13) == 0) {
-//     return;
-//   }
-
-//   TLorentzVector Pnu  = event->GetNeutrinoIn()->fP;
-//   TLorentzVector Pn   = event->GetHMFSParticle(2112)->fP;
-//   TLorentzVector Ppip = event->GetHMFSParticle(211)->fP;
-//   TLorentzVector Pmu  = event->GetHMFSParticle(13)->fP;
-
-//   double hadMass = FitUtils::MpPi(Pn, Ppip);
-//   double q2CCpip;
-
-//   // ANL has a M(pi, p) < 1.4 GeV cut imposed (also no cut measurement but not useful for delta tuning)
-//   if (hadMass < HadCut * 1000.) {
-//     q2CCpip = -1.0 * (Pnu - Pmu).Mag2() / 1.E6;
-//   } else {
-//     q2CCpip = -1.0;
-//   }
-
-//   fXVar = q2CCpip;
-
-//   return;
-// };
-
-// void ANL_CC1npip_Evt_1DWmupi_nu::FillEventVariables(FitEvent *event) {
-
-//   if (event->NumFSParticle(2112) == 0 ||
-//       event->NumFSParticle(211) == 0 ||
-//       event->NumFSParticle(13) == 0)
-//     return;
-
-//   TLorentzVector Pmu  = event->GetHMFSParticle(13)->fP;
-//   TLorentzVector Ppip = event->GetHMFSParticle(211)->fP;
-
-//   double hadMass = (Pmu+Ppip).Mag()/1000.;
-
-//   fXVar = hadMass;
-
-//   return;
-// };
+    return (Pmu+Ppip).length()/ps::GeV;
+}
 
 
-// void ANL_CC1npip_Evt_1DWNmu_nu::FillEventVariables(FitEvent *event) {
+double ANL_167744_CC1npip_Project_WNmu(HepMC3::GenEvent const &ev) {
+    if (!ANL_167744_CC1npip_Selection(ev)) {
+        return 0xdeadbeef;
+    }
 
-//   if (event->NumFSParticle(2112) == 0 ||
-//       event->NumFSParticle(211) == 0 ||
-//       event->NumFSParticle(13) == 0)
-//     return;
+    auto Pn   = ps::sel::OutPartHM(ev, 2112)->momentum();
+    auto Pmu  = ps::sel::OutPartHM(ev, 13)->momentum();
 
-//   TLorentzVector Pn   = event->GetHMFSParticle(2112)->fP;
-//   TLorentzVector Pmu  = event->GetHMFSParticle(13)->fP;
-
-//   double hadMass = (Pn+Pmu).Mag()/1000.;
-
-//   fXVar = hadMass;
-
-//   return;
-// };
+    return (Pn+Pmu).length()/ps::GeV;
+}
 
 
-// void ANL_CC1npip_Evt_1DWNpi_nu::FillEventVariables(FitEvent *event) {
+double ANL_167744_CC1npip_Project_WNpi(HepMC3::GenEvent const &ev) {
+    if (!ANL_167744_CC1npip_Selection(ev)) {
+        return 0xdeadbeef;
+    }
 
-//   if (event->NumFSParticle(2112) == 0 ||
-//       event->NumFSParticle(211) == 0 ||
-//       event->NumFSParticle(13) == 0)
-//     return;
+    auto Pn   = ps::sel::OutPartHM(ev, 2112)->momentum();
+    auto Ppip = ps::sel::OutPartHM(ev, 211)->momentum();
 
-//   TLorentzVector Pn   = event->GetHMFSParticle(2112)->fP;
-//   TLorentzVector Ppip = event->GetHMFSParticle(211)->fP;
+    return (Pn+Ppip).length()/ps::GeV;
+}
 
-//   double hadMass = (Pn+Ppip).Mag()/1000.;
+// ANL_167744_CC1npi0 Analyses
+int ANL_167744_CC1npi0_Selection(HepMC3::GenEvent const &ev) {
+    return isCC1pi3Prong(ev, 14, 111, 2212, 0.0 * ps::GeV, 1.5 * ps::GeV);
+}
 
-//   fXVar = hadMass;
+int ANL_167744_CC1npi0_Selection_lowW(HepMC3::GenEvent const &ev) {
+    if (!ANL_167744_CC1npi0_Selection(ev)) return 0;
+    if (!HadMassCut(ev, 111, 2212, 1.4 * ps::GeV)) return 0;
+    return 1;
+}
 
-//   return;
-// };
+double ANL_167744_CC1npi0_Project_cosmuStar(HepMC3::GenEvent const &ev) {
+    if (!ANL_167744_CC1npi0_Selection(ev)) {
+        return 0xdeadbeef;
+    }
+
+    auto Pnu  = ps::sel::Beam(ev, ps::pdg::kNuMu)->momentum();
+    auto Pin  = ps::sel::Target(ev)->momentum();
+    auto Pp   = ps::sel::OutPartHM(ev, 2212)->momentum();
+    auto Ppi0 = ps::sel::OutPartHM(ev, 111)->momentum();
+    auto Pmu  = ps::sel::OutPartHM(ev, 13)->momentum();
+
+    double cosmuStar = -999;
+
+    // Now need to boost into center-of-mass frame
+    auto CMS = Pnu + Pin;
+    Pmu = BoostVector(Pmu, CMS * -1.0);
+    Pnu = BoostVector(Pnu, CMS * +1.0);
+
+    return CosAngle(Pmu, Pnu);
+}
+
+double ANL_167744_CC1npi0_Project_Q2(HepMC3::GenEvent const &ev) {
+    if (!ANL_167744_CC1npi0_Selection(ev)) {
+        return 0xdeadbeef;
+    }
+
+    auto Pnu  = ps::sel::Beam(ev, ps::pdg::kNuMu)->momentum();
+    auto Pp   = ps::sel::OutPartHM(ev, 2212)->momentum();
+    auto Ppi0 = ps::sel::OutPartHM(ev, 111)->momentum();
+    auto Pmu  = ps::sel::OutPartHM(ev, 13)->momentum();
+
+    return -1.0 * (Pnu - Pmu).length2() / ps::GeV / ps::GeV;
+};
+
+double ANL_167744_CC1npi0_Project_Q2_lowW(HepMC3::GenEvent const &ev) {
+    if (!ANL_167744_CC1npi0_Selection_lowW(ev)) {
+        return 0xdeadbeef;
+    }
+    return ANL_167744_CC1npi0_Project_Q2(ev);
+};
+
+double ANL_167744_CC1npi0_Project_Wmupi(HepMC3::GenEvent const &ev) {
+    if (!ANL_167744_CC1npi0_Selection(ev)) {
+        return 0xdeadbeef;
+    }
+
+    auto Pmu  = ps::sel::OutPartHM(ev, 13)->momentum();
+    auto Ppip = ps::sel::OutPartHM(ev, 111)->momentum();
+    return (Pmu+Ppip).length()/ps::GeV;
+};
+
+double ANL_167744_CC1npi0_Project_WNpi(HepMC3::GenEvent const &ev) {
+    if (!ANL_167744_CC1npi0_Selection(ev)) {
+        return 0xdeadbeef;
+    }
+
+    auto Pp   = ps::sel::OutPartHM(ev, 2212)->momentum();
+    auto Ppip = ps::sel::OutPartHM(ev, 111)->momentum();
+    return (Pp+Ppip).length()/ps::GeV;
+};
 
 
 
-// int HadMassCut(){
 
-// }
+int ANL_167744_CC1ppip_Selection(HepMC3::GenEvent const &ev) {
+    return isCC1pi3Prong(ev, 14, 211, 2212, 0.0 * ps::GeV, 6.0 * ps::GeV);
+}
 
-// int ANL_167744_CC1npip_Filter_CC1pi3Prong(){
-//     return SignalDef::isCC1pi3Prong(event, 14, 211, 2112, 0.0*GeV, 1.5*GeV);
-// }
+int ANL_167744_CC1ppip_Selection_lowW(HepMC3::GenEvent const &ev) {
+    if (!ANL_167744_CC1ppip_Selection(ev)) return 0;
+    if (!HadMassCut(ev, 211, 2212, 1.4 * ps::GeV)) return 0;
+    return 1;
+}
 
-// int ANL_167744_CC1npip_Filter_CC1pi3Prong_HadMass(){
-//     if (! ANL_167744_CC1npip_Filter_CC1pi3Prong() ) return 0;
-//     return HadMassCut();
-// }
+double ANL_167744_CC1ppip_Project_cosmuStar(HepMC3::GenEvent const &ev) {
+    if (!ANL_167744_CC1ppip_Selection_lowW(ev)) {
+        return 0xdeadbeef;
+    }
+
+    auto Pnu  = ps::sel::Beam(ev, ps::pdg::kNuMu)->momentum();
+    auto Pin  = ps::sel::Target(ev)->momentum();
+    auto Pp   = ps::sel::OutPartHM(ev, 2212)->momentum();
+    auto Ppip = ps::sel::OutPartHM(ev, 211)->momentum();
+    auto Pmu  = ps::sel::OutPartHM(ev, 13)->momentum();
+
+    // Now need to boost into center-of-mass frame
+    auto cms = (Pnu + Pin);
+    auto pmub = BoostVector(Pmu, cms * -1.0);
+    auto pnub = BoostVector(Pnu, cms);
+
+    return CosAngle(pmub, pnub);
+};
 
 
+double ANL_167744_CC1ppip_Project_costhAdler(HepMC3::GenEvent const &ev) {
+    if (!ANL_167744_CC1ppip_Selection_lowW(ev)) {
+        return 0xdeadbeef;
+    }
+
+    auto Pnu  = ps::sel::Beam(ev, ps::pdg::kNuMu)->momentum();
+    auto Pp   = ps::sel::OutPartHM(ev, ps::pdg::kProton)->momentum();
+    auto Ppip = ps::sel::OutPartHM(ev, ps::pdg::kPiPlus)->momentum();
+    auto Pmu  = ps::sel::OutPartHM(ev, ps::pdg::kMuon)->momentum();
+
+    // Get Adler cos theta
+    return CosThAdler(Pnu, Pmu, Ppip, Pp);
+};
+
+
+double ANL_167744_CC1ppip_Project_phi(HepMC3::GenEvent const &ev) {
+    if (!ANL_167744_CC1ppip_Selection_lowW(ev)) {
+        return 0xdeadbeef;
+    }
+
+    auto Pnu  = ps::sel::Beam(ev, ps::pdg::kNuMu)->momentum();
+    auto Pp   = ps::sel::OutPartHM(ev, ps::pdg::kProton)->momentum();
+    auto Ppip = ps::sel::OutPartHM(ev, ps::pdg::kPiPlus)->momentum();
+    auto Pmu  = ps::sel::OutPartHM(ev, ps::pdg::kMuon)->momentum();
+
+    return PhiAdler(Pnu, Pmu, Ppip, Pp);
+};
+
+
+double ANL_167744_CC1ppip_Project_Q2(HepMC3::GenEvent const &ev) {
+    if (!ANL_167744_CC1ppip_Selection(ev)) {
+        return 0xdeadbeef;
+    }
+
+    auto Pnu  = ps::sel::Beam(ev, ps::pdg::kNuMu)->momentum();
+    auto Pp   = ps::sel::OutPartHM(ev, ps::pdg::kProton)->momentum();
+    auto Ppip = ps::sel::OutPartHM(ev, ps::pdg::kPiPlus)->momentum();
+    auto Pmu  = ps::sel::OutPartHM(ev, ps::pdg::kMuon)->momentum();
+
+    return -1 * (Pnu - Pmu).length2() / ps::GeV / ps::GeV;
+};
+
+double ANL_167744_CC1ppip_Project_Q2_lowW(HepMC3::GenEvent const &ev) {
+    if (!ANL_167744_CC1ppip_Selection_lowW(ev)) {
+        return 0xdeadbeef;
+    }
+    return ANL_167744_CC1ppip_Project_Q2(ev);
+};
+
+
+double ANL_167744_CC1ppip_Project_ppi(HepMC3::GenEvent const &ev) {
+    if (!ANL_167744_CC1ppip_Selection_lowW(ev)) {
+        return 0xdeadbeef;
+    }
+
+    auto Pnu  = ps::sel::Beam(ev, ps::pdg::kNuMu)->momentum();
+    auto Pp   = ps::sel::OutPartHM(ev, ps::pdg::kProton)->momentum();
+    auto Ppip = ps::sel::OutPartHM(ev, ps::pdg::kPiPlus)->momentum();
+    auto Pmu  = ps::sel::OutPartHM(ev, ps::pdg::kMuon)->momentum();
+
+    return Ppip.length() / ps::GeV;
+}
+
+double ANL_167744_CC1ppip_Project_thpr(HepMC3::GenEvent const &ev) {
+    if (!ANL_167744_CC1ppip_Selection_lowW(ev)) {
+        return 0xdeadbeef;
+    }
+
+    auto Pnu  = ps::sel::Beam(ev, ps::pdg::kNuMu)->momentum();
+    auto Pp   = ps::sel::OutPartHM(ev, ps::pdg::kProton)->momentum();
+    auto Ppip = ps::sel::OutPartHM(ev, ps::pdg::kPiPlus)->momentum();
+    auto Pmu  = ps::sel::OutPartHM(ev, ps::pdg::kMuon)->momentum();
+
+    return CosAngle(Pnu, Pp);
+};
+
+
+
+double ANL_167744_CC1ppip_Project_Wmupi(HepMC3::GenEvent const &ev) {
+    if (!ANL_167744_CC1ppip_Selection(ev)) {
+        return 0xdeadbeef;
+    }
+
+    auto Pmu  = ps::sel::OutPartHM(ev, ps::pdg::kMuon)->momentum();
+    auto Ppip = ps::sel::OutPartHM(ev, ps::pdg::kPiPlus)->momentum();
+    return (Pmu+Ppip).length()/ps::GeV;
+};
+
+
+double ANL_167744_CC1ppip_Project_WNmu(HepMC3::GenEvent const &ev) {
+    if (!ANL_167744_CC1ppip_Selection(ev)) {
+        return 0xdeadbeef;
+    }
+
+    auto Pmu  = ps::sel::OutPartHM(ev, ps::pdg::kMuon)->momentum();
+    auto Pp   = ps::sel::OutPartHM(ev, ps::pdg::kProton)->momentum();
+    return (Pmu+Pp).length()/ps::GeV;
+};
+
+double ANL_167744_CC1ppip_Project_WNpi(HepMC3::GenEvent const &ev) {
+    if (!ANL_167744_CC1ppip_Selection(ev)) {
+        return 0xdeadbeef;
+    }
+
+    auto Pp   = ps::sel::OutPartHM(ev, ps::pdg::kProton)->momentum();
+    auto Ppip = ps::sel::OutPartHM(ev, ps::pdg::kPiPlus)->momentum();
+    return (Pp+Ppip).length()/ps::GeV;
+};
+
+
+double ANL_167744_CC1ppip_XSec_1DQ2(HepMC3::GenEvent const &ev) {
+    if (!ANL_167744_CC1ppip_Selection_lowW(ev)) {
+        return 0xdeadbeef;
+    }
+
+    auto Pnu  = ps::sel::Beam(ev, ps::pdg::kNuMu)->momentum();
+    auto Pp   = ps::sel::OutPartHM(ev, ps::pdg::kProton)->momentum();
+    auto Ppip = ps::sel::OutPartHM(ev, ps::pdg::kPiPlus)->momentum();
+    auto Pmu  = ps::sel::OutPartHM(ev, ps::pdg::kMuon)->momentum();
+
+    return  -1 * (Pnu - Pmu).length2() / ps::GeV / ps::GeV;
+};
+
+}

@@ -1,0 +1,90 @@
+dependent_variables:
+- header:
+    name: DepVar
+    units: Event Counts
+  qualifiers:
+  - name: likelihood
+    value: Poisson
+  - name: scaling
+    value: EventRateScaleToData
+  - name: weighting
+    value: Default
+  - name: targets
+    value: D2
+  - name: species
+    value: numu
+  - name: suggested_flux
+    value: inspire:unknown
+  - name: Filter
+    value: ANL_167744_CC1npi0_Selection
+  - name: WNpi
+    value: ANL_167744_CC1npi0_Project_WNpi
+  values:
+  - value: 4.632
+  - value: 22.339
+  - value: 14.031
+  - value: 24.531
+  - value: 20.742
+  - value: 20.128
+  - value: 16.583
+  - value: 17.557
+  - value: 19.386
+  - value: 5.4596
+  - value: 8.3876
+  - value: 2.1554
+  - value: 3.2516
+  - value: 6.3021
+  - value: 3.6119
+  - value: 1.5326
+  - value: 1.0409
+  - value: 1.5265
+  - value: 1.0349
+  - value: 3.5967
+  - value: 0.41475
+independent_variables:
+- header:
+    name: WNpi
+    units: GeV
+  values:
+  - high: 1.12
+    low: 1.09
+  - high: 1.15
+    low: 1.12
+  - high: 1.18
+    low: 1.15
+  - high: 1.21
+    low: 1.18
+  - high: 1.24
+    low: 1.21
+  - high: 1.27
+    low: 1.24
+  - high: 1.3
+    low: 1.27
+  - high: 1.33
+    low: 1.3
+  - high: 1.36
+    low: 1.33
+  - high: 1.39
+    low: 1.36
+  - high: 1.42
+    low: 1.39
+  - high: 1.45
+    low: 1.42
+  - high: 1.48
+    low: 1.45
+  - high: 1.51
+    low: 1.48
+  - high: 1.54
+    low: 1.51
+  - high: 1.57
+    low: 1.54
+  - high: 1.6
+    low: 1.57
+  - high: 1.63
+    low: 1.6
+  - high: 1.66
+    low: 1.63
+  - high: 1.69
+    low: 1.66
+  - high: 1.75
+    low: 1.72

@@ -16,33 +16,36 @@ dependent_variables:
   - name: suggested_flux
     value: inspire:unknown
   - name: Filter
-    value: ANL_167744_CC1npip_Selection
-  - name: Q2
-    value: ANL_167744_CC1npip_Project_Q2_HighW
+    value: ANL_167744_CC1ppip_Selection_lowW
+  - name: Q2-lowW
+    value: ANL_167744_CC1ppip_Project_Q2_lowW
   values:
-  - value: 34.2
-  - value: 20.4
-  - value: 20.9
-  - value: 22.6
-  - value: 12.7
-  - value: 6.5
-  - value: 5.1
-  - value: 7.1
-  - value: 3.8
-  - value: 8.8
-  - value: 2.4
-  - value: 1.9
-  - value: 2.2
-  - value: 2.8
-  - value: 1.7
-  - value: 1.2
-  - value: 2.0
-  - value: 2.8
-  - value: 1.1
+  - value: 87.0
+  - value: 72.0
+  - value: 75.0
+  - value: 58.0
+  - value: 49.0
+  - value: 52.0
+  - value: 41.0
+  - value: 31.0
+  - value: 27.0
+  - value: 28.0
+  - value: 20.0
+  - value: 16.0
+  - value: 18.0
+  - value: 15.0
+  - value: 13.0
+  - value: 9.0
+  - value: 7.0
+  - value: 7.0
+  - value: 7.0
+  - value: 8.0
+  - value: 8.0
+  - value: 8.0
+  - value: 8.0
 independent_variables:
 - header:
-    name: Q2
-    units: Q^{2}_{rec} (GeV/c^{2})
+    name: Q2-lowW
   values:
   - high: 0.15
     low: 0.1
@@ -78,7 +81,15 @@ independent_variables:
     low: 0.85
   - high: 0.95
     low: 0.9
-  - high: 1.0
-    low: 0.95
   - high: 1.05
-    low: 1.0
+    low: 0.95
+  - high: 1.15
+    low: 1.05
+  - high: 1.25
+    low: 1.15
+  - high: 1.4
+    low: 1.25
+  - high: 1.55
+    low: 1.4
+  - high: 3.0
+    low: 1.55

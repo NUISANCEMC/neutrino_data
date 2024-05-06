@@ -16,29 +16,28 @@ dependent_variables:
   - name: suggested_flux
     value: inspire:unknown
   - name: Filter
-    value: ANL_167744_CC1npip_Selection
+    value: ANL_167744_CC1ppip_Selection_lowW
   - name: ppi
-    value: ANL_167744_CC1npip_Project_ppi
+    value: ANL_167744_CC1ppip_Project_ppi
   values:
-  - value: 1.91
-  - value: 4.95
-  - value: 12.5
-  - value: 16.1
-  - value: 19.0
-  - value: 20.9
-  - value: 19.0
-  - value: 15.1
-  - value: 12.0
-  - value: 8.09
-  - value: 2.92
-  - value: 4.99
+  - value: 17.25
+  - value: 50.08
+  - value: 103.26
+  - value: 90.42
+  - value: 75.5
+  - value: 59.29
+  - value: 49.69
+  - value: 18.42
+  - value: 11.55
+  - value: 9.21
+  - value: 8.3
+  - value: 3.37
+  - value: 2.34
+  - value: 1.43
 independent_variables:
 - header:
     name: ppi
-    units: p_{#pi} (GeV/c)
   values:
-  - high: 50.0
-    low: 0.0
   - high: 100.0
     low: 50.0
   - high: 150.0
@@ -61,3 +60,9 @@ independent_variables:
     low: 500.0
   - high: 600.0
     low: 550.0
+  - high: 650.0
+    low: 600.0
+  - high: 700.0
+    low: 650.0
+  - high: 750.0
+    low: 700.0

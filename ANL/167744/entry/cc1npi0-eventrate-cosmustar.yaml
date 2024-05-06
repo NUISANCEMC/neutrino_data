@@ -16,42 +16,41 @@ dependent_variables:
   - name: suggested_flux
     value: inspire:unknown
   - name: Filter
-    value: ANL_167744_CC1npip_Selection
-  - name: cosmuStar
-    value: ANL_167744_CC1npip_Project_cosmuStar
+    value: ANL_167744_CC1npi0_Selection
+  - name: cosmustar
+    value: ANL_167744_CC1npi0_Project_cosmuStar
   values:
-  - value: 9.52
-  - value: 18.5
-  - value: 15.7
-  - value: 15.6
-  - value: 19.2
-  - value: 24.3
+  - value: 8.97
+  - value: 20.9
+  - value: 19.6
+  - value: 13.7
+  - value: 29.2
+  - value: 21.9
   - value: 20.1
-  - value: 26.9
-  - value: 22.9
-  - value: 31.0
+  - value: 16.9
+  - value: 31.9
+  - value: 14.7
 independent_variables:
 - header:
-    name: cosmuStar
-    units: cos(#theta*)
+    name: cosmustar
   values:
   - high: -0.8
-    low: -0.998
-  - high: -0.601
+    low: -1.0
+  - high: -0.6
     low: -0.8
   - high: -0.4
-    low: -0.601
-  - high: -0.201
+    low: -0.6
+  - high: -0.2
     low: -0.4
-  - high: -0.00204
-    low: -0.201
-  - high: 0.199
-    low: -0.00204
+  - high: 0.0
+    low: -0.2
+  - high: 0.2
+    low: 0.0
   - high: 0.4
-    low: 0.199
-  - high: 0.599
+    low: 0.2
+  - high: 0.6
     low: 0.4
   - high: 0.8
-    low: 0.599
-  - high: 0.998
+    low: 0.6
+  - high: 1.0
     low: 0.8
