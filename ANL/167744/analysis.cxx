@@ -172,7 +172,7 @@ bool isCC1pi3Prong(HepMC3::GenEvent const &ev,
     if (nLeptons != 1) return false;
 
     // Check that there are only three FS particles
-    // if (ps::sel::OutParts(ev,) != 3) return false; // Unsure how to do this.
+    if (ps::sel::OutPartsAny(ev,{}).size() != 3) return false; // Unsure how to do this.
 
     return true;
 }
@@ -271,7 +271,7 @@ double ANL_167744_CC1npip_Project_Q2_highW(HepMC3::GenEvent const &ev) {
     auto Ppip = ps::sel::OutPartHM(ev, 211)->momentum();
     auto Pmu  = ps::sel::OutPartHM(ev, 13)->momentum();
 
-    double q2CCpip = (Pnu - Pmu).length2() / ps::GeV / ps::GeV;
+    double q2CCpip = -(Pnu - Pmu).m2() / ps::GeV / ps::GeV;
 
     return q2CCpip;
 };
@@ -296,7 +296,7 @@ double ANL_167744_CC1npip_Project_Wmupi(HepMC3::GenEvent const &ev) {
     auto Pmu  = ps::sel::OutPartHM(ev, 13)->momentum();
     auto Ppip = ps::sel::OutPartHM(ev, 211)->momentum();
 
-    return (Pmu+Ppip).length()/ps::GeV;
+    return (Pmu+Ppip).m()/ps::GeV;
 }
 
 
@@ -312,7 +312,7 @@ double ANL_167744_CC1npip_Project_WNmu(HepMC3::GenEvent const &ev) {
     auto Pn   = ps::sel::OutPartHM(ev, 2112)->momentum();
     auto Pmu  = ps::sel::OutPartHM(ev, 13)->momentum();
 
-    return (Pn+Pmu).length()/ps::GeV;
+    return (Pn+Pmu).m()/ps::GeV;
 }
 
 
@@ -328,7 +328,7 @@ double ANL_167744_CC1npip_Project_WNpi(HepMC3::GenEvent const &ev) {
     auto Pn   = ps::sel::OutPartHM(ev, 2112)->momentum();
     auto Ppip = ps::sel::OutPartHM(ev, 211)->momentum();
 
-    return (Pn+Ppip).length()/ps::GeV;
+    return (Pn+Ppip).m()/ps::GeV;
 }
 
 // ANL_167744_CC1npi0 Analyses
@@ -385,7 +385,7 @@ double ANL_167744_CC1npi0_Project_Q2(HepMC3::GenEvent const &ev) {
     auto Ppi0 = ps::sel::OutPartHM(ev, 111)->momentum();
     auto Pmu  = ps::sel::OutPartHM(ev, 13)->momentum();
 
-    return (Pnu - Pmu).length2() / ps::GeV / ps::GeV;
+    return -(Pnu - Pmu).m2() / ps::GeV / ps::GeV;
 };
 
 double ANL_167744_CC1npi0_Project_Q2_lowW(HepMC3::GenEvent const &ev) {
@@ -405,7 +405,7 @@ double ANL_167744_CC1npi0_Project_Wmupi(HepMC3::GenEvent const &ev) {
 
     auto Pmu  = ps::sel::OutPartHM(ev, 13)->momentum();
     auto Ppip = ps::sel::OutPartHM(ev, 111)->momentum();
-    return (Pmu+Ppip).length()/ps::GeV;
+    return (Pmu+Ppip).m()/ps::GeV;
 };
 
 double ANL_167744_CC1npi0_Project_WNpi(HepMC3::GenEvent const &ev) {
@@ -418,7 +418,7 @@ double ANL_167744_CC1npi0_Project_WNpi(HepMC3::GenEvent const &ev) {
 
     auto Pp   = ps::sel::OutPartHM(ev, 2212)->momentum();
     auto Ppip = ps::sel::OutPartHM(ev, 111)->momentum();
-    return (Pp+Ppip).length()/ps::GeV;
+    return (Pp+Ppip).m()/ps::GeV;
 };
 
 double ANL_167744_CC1npi0_Project_WNmu(HepMC3::GenEvent const &ev) {
@@ -431,11 +431,12 @@ double ANL_167744_CC1npi0_Project_WNmu(HepMC3::GenEvent const &ev) {
 
     auto Pp   = ps::sel::OutPartHM(ev, 2212)->momentum();
     auto Ppip = ps::sel::OutPartHM(ev, 13)->momentum();
-    return (Pp+Ppip).length()/ps::GeV;
+    return (Pp+Ppip).m()/ps::GeV;
 };
 
 
 int ANL_167744_CC1ppip_Selection(HepMC3::GenEvent const &ev) {
+    if (!HadMassCut(ev, 211, 2212, 10.0 * ps::GeV)) return 0;
     return isCC1pi3Prong(ev, 14, 211, 2212, 0.0 * ps::GeV, 6.0 * ps::GeV);
 }
 
@@ -524,7 +525,7 @@ double ANL_167744_CC1ppip_Project_Q2(HepMC3::GenEvent const &ev) {
     auto Ppip = ps::sel::OutPartHM(ev, ps::pdg::kPiPlus)->momentum();
     auto Pmu  = ps::sel::OutPartHM(ev, ps::pdg::kMuon)->momentum();
 
-    return (Pnu - Pmu).length2() / ps::GeV / ps::GeV;
+    return -(Pnu - Pmu).m2() / ps::GeV / ps::GeV;
 };
 
 double ANL_167744_CC1ppip_Project_Q2_lowW(HepMC3::GenEvent const &ev) {
@@ -586,7 +587,7 @@ double ANL_167744_CC1ppip_Project_Wmupi(HepMC3::GenEvent const &ev) {
 
     auto Pmu  = ps::sel::OutPartHM(ev, ps::pdg::kMuon)->momentum();
     auto Ppip = ps::sel::OutPartHM(ev, ps::pdg::kPiPlus)->momentum();
-    return (Pmu+Ppip).length()/ps::GeV;
+    return (Pmu+Ppip).m()/ps::GeV;
 };
 
 
@@ -602,7 +603,7 @@ double ANL_167744_CC1ppip_Project_WNmu(HepMC3::GenEvent const &ev) {
 
     auto Pmu  = ps::sel::OutPartHM(ev, ps::pdg::kMuon)->momentum();
     auto Pp   = ps::sel::OutPartHM(ev, ps::pdg::kProton)->momentum();
-    return (Pmu+Pp).length()/ps::GeV;
+    return (Pmu+Pp).m()/ps::GeV;
 };
 
 double ANL_167744_CC1ppip_Project_WNpi(HepMC3::GenEvent const &ev) {
@@ -617,7 +618,7 @@ double ANL_167744_CC1ppip_Project_WNpi(HepMC3::GenEvent const &ev) {
 
     auto Pp   = ps::sel::OutPartHM(ev, ps::pdg::kProton)->momentum();
     auto Ppip = ps::sel::OutPartHM(ev, ps::pdg::kPiPlus)->momentum();
-    return (Pp+Ppip).length()/ps::GeV;
+    return (Pp+Ppip).m()/ps::GeV;
 };
 
 
@@ -636,8 +637,7 @@ double ANL_167744_CC1ppip_XSec_1DQ2(HepMC3::GenEvent const &ev) {
     auto Ppip = ps::sel::OutPartHM(ev, ps::pdg::kPiPlus)->momentum();
     auto Pmu  = ps::sel::OutPartHM(ev, ps::pdg::kMuon)->momentum();
 
-    std::cout << "Q2 Value " << -1 * (Pnu - Pmu).length2() / ps::GeV / ps::GeV << std::endl;
-    return  (Pnu - Pmu).length2() / ps::GeV / ps::GeV;
+    return  -(Pnu - Pmu).m2() / ps::GeV / ps::GeV;
 };
 
 }
