@@ -489,8 +489,8 @@ location: Example location
 name: cc1ppip-eventrate-wnpi
 related_to_table_dois: []
 ---
-data_file: cc1ppip-dsigma-wnpi.yaml
-description: "\n  dSigma for CC1ppip Measurement binned in WNpi\n  Comparisons should\
+data_file: cc1ppip-dsigma-q2.yaml
+description: "\n  dSigma for CC1ppip Measurement binned in Q2\n  Comparisons should\
   \ be shape only comparing to\n  statistical errors.\n  "
 keywords:
 - name: observables
@@ -503,8 +503,8 @@ keywords:
   values:
   - Neutrino
   - CC1ppip
-  - WNpi
+  - Q2
   - dSigma
 location: Example location
-name: cc1ppip-dsigma-wnpi
+name: cc1ppip-dsigma-q2
 related_to_table_dois: []

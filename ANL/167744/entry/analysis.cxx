@@ -155,7 +155,7 @@ bool isCC1pi3Prong(HepMC3::GenEvent const &ev,
 
     if (EnuMin != EnuMax) {
         if (nu->momentum().e() < EnuMin) return false;
-        if (nu->momentum().e() < EnuMax) return false;
+        if (nu->momentum().e() > EnuMax) return false;
     }
 
     int nMesons  = ps::sel::OutPartsAny(ev, {211, -211, 111}).size();
@@ -181,6 +181,9 @@ int HadMassCut(HepMC3::GenEvent const &ev,
     int pion_pdg,
     int nucleon_pdg,
     double hadronic_mass_cut) {
+
+    if (!ps::sel::OutPartHM(ev, nucleon_pdg)) return 0;
+    if (!ps::sel::OutPartHM(ev, pion_pdg)) return 0;
 
     auto pp = ps::sel::OutPartHM(ev, nucleon_pdg)->momentum();
     auto ppi = ps::sel::OutPartHM(ev, pion_pdg)->momentum();
@@ -319,6 +322,9 @@ double ANL_167744_CC1npi0_Project_cosmuStar(HepMC3::GenEvent const &ev) {
     if (!ANL_167744_CC1npi0_Selection(ev)) {
         return 0xdeadbeef;
     }
+
+    if (!ps::sel::Beam(ev, ps::pdg::kNuMu) || !ps::sel::Target(ev)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 2212)) return 0xdeadbeef;
 
     auto Pnu  = ps::sel::Beam(ev, ps::pdg::kNuMu)->momentum();
     auto Pin  = ps::sel::Target(ev)->momentum();
@@ -464,12 +470,18 @@ double ANL_167744_CC1ppip_Project_ppi(HepMC3::GenEvent const &ev) {
         return 0xdeadbeef;
     }
 
+    if (!ps::sel::Beam(ev, ps::pdg::kNuMu)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, ps::pdg::kProton)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, ps::pdg::kPiPlus)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, ps::pdg::kMuon)) return 0xdeadbeef;
+
+
     auto Pnu  = ps::sel::Beam(ev, ps::pdg::kNuMu)->momentum();
     auto Pp   = ps::sel::OutPartHM(ev, ps::pdg::kProton)->momentum();
     auto Ppip = ps::sel::OutPartHM(ev, ps::pdg::kPiPlus)->momentum();
     auto Pmu  = ps::sel::OutPartHM(ev, ps::pdg::kMuon)->momentum();
 
-    return Ppip.length() / ps::GeV;
+    return Ppip.length() / ps::MeV;
 }
 
 double ANL_167744_CC1ppip_Project_thpr(HepMC3::GenEvent const &ev) {

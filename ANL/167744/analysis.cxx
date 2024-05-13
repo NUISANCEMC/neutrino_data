@@ -155,7 +155,7 @@ bool isCC1pi3Prong(HepMC3::GenEvent const &ev,
 
     if (EnuMin != EnuMax) {
         if (nu->momentum().e() < EnuMin) return false;
-        if (nu->momentum().e() < EnuMax) return false;
+        if (nu->momentum().e() > EnuMax) return false;
     }
 
     int nMesons  = ps::sel::OutPartsAny(ev, {211, -211, 111}).size();
@@ -181,6 +181,9 @@ int HadMassCut(HepMC3::GenEvent const &ev,
     int pion_pdg,
     int nucleon_pdg,
     double hadronic_mass_cut) {
+
+    if (!ps::sel::OutPartHM(ev, nucleon_pdg)) return 0;
+    if (!ps::sel::OutPartHM(ev, pion_pdg)) return 0;
 
     auto pp = ps::sel::OutPartHM(ev, nucleon_pdg)->momentum();
     auto ppi = ps::sel::OutPartHM(ev, pion_pdg)->momentum();
@@ -220,6 +223,8 @@ double ANL_167744_CC1npip_Project_cosmuStar(HepMC3::GenEvent const &ev) {
     auto pip = ps::sel::OutPartHM(ev, ps::pdg::kPiPlus);
     auto n = ps::sel::OutPartHM(ev, ps::pdg::kNeutron);
 
+    if (!nu || !in || !mu || !pip || !n) return 0xdeadbeef;
+
     // Now need to boost into center-of-mass frame
     auto cms = (nu->momentum() + in->momentum());
     auto pmub = BoostVector(mu->momentum(), cms * -1.0);
@@ -235,37 +240,47 @@ double ANL_167744_CC1npip_Project_ppi(HepMC3::GenEvent const &ev) {
         return 0xdeadbeef;
     }
 
+    if (!ps::sel::Beam(ev, ps::pdg::kNuMu)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 2112)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 211)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 13)) return 0xdeadbeef;
+
     auto Pnu  = ps::sel::Beam(ev, ps::pdg::kNuMu)->momentum();
     auto Pn   = ps::sel::OutPartHM(ev, 2112)->momentum();
     auto Ppip = ps::sel::OutPartHM(ev, 211)->momentum();
     auto Pmu  = ps::sel::OutPartHM(ev, 13)->momentum();
 
-    return Ppip.length() * ps::GeV;
+    return Ppip.length() * ps::MeV;
 }
 
 
 
-double ANL_167744_CC1npip_Project_Q2(HepMC3::GenEvent const &ev) {
+double ANL_167744_CC1npip_Project_Q2_highW(HepMC3::GenEvent const &ev) {
 
     if (!ANL_167744_CC1npip_Selection(ev)) {
         return 0xdeadbeef;
     }
 
+    if (!ps::sel::Beam(ev, ps::pdg::kNuMu)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 2112)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 211)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 13)) return 0xdeadbeef;
+
     auto Pnu  = ps::sel::Beam(ev, ps::pdg::kNuMu)->momentum();
     auto Pn   = ps::sel::OutPartHM(ev, 2112)->momentum();
     auto Ppip = ps::sel::OutPartHM(ev, 211)->momentum();
     auto Pmu  = ps::sel::OutPartHM(ev, 13)->momentum();
 
-    double q2CCpip = -1.0 * (Pnu - Pmu).length2() / ps::GeV / ps::GeV;
+    double q2CCpip = (Pnu - Pmu).length2() / ps::GeV / ps::GeV;
 
     return q2CCpip;
 };
 
-double ANL_167744_CC1npip_Project_Q2_LowW(HepMC3::GenEvent const &ev) {
+double ANL_167744_CC1npip_Project_Q2_lowW(HepMC3::GenEvent const &ev) {
     if (!ANL_167744_CC1npip_Selection_lowW(ev)) {
         return 0xdeadbeef;
     }
-    return ANL_167744_CC1npip_Project_Q2(ev);
+    return ANL_167744_CC1npip_Project_Q2_highW(ev);
 }
 
 
@@ -273,6 +288,10 @@ double ANL_167744_CC1npip_Project_Wmupi(HepMC3::GenEvent const &ev) {
     if (!ANL_167744_CC1npip_Selection(ev)) {
         return 0xdeadbeef;
     }
+
+    if (!ps::sel::Beam(ev, ps::pdg::kNuMu)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 211)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 13)) return 0xdeadbeef;
 
     auto Pmu  = ps::sel::OutPartHM(ev, 13)->momentum();
     auto Ppip = ps::sel::OutPartHM(ev, 211)->momentum();
@@ -286,6 +305,10 @@ double ANL_167744_CC1npip_Project_WNmu(HepMC3::GenEvent const &ev) {
         return 0xdeadbeef;
     }
 
+    if (!ps::sel::Beam(ev, ps::pdg::kNuMu)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 2112)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 13)) return 0xdeadbeef;
+
     auto Pn   = ps::sel::OutPartHM(ev, 2112)->momentum();
     auto Pmu  = ps::sel::OutPartHM(ev, 13)->momentum();
 
@@ -297,6 +320,10 @@ double ANL_167744_CC1npip_Project_WNpi(HepMC3::GenEvent const &ev) {
     if (!ANL_167744_CC1npip_Selection(ev)) {
         return 0xdeadbeef;
     }
+
+    if (!ps::sel::Beam(ev, ps::pdg::kNuMu)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 2112)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 211)) return 0xdeadbeef;
 
     auto Pn   = ps::sel::OutPartHM(ev, 2112)->momentum();
     auto Ppip = ps::sel::OutPartHM(ev, 211)->momentum();
@@ -320,6 +347,12 @@ double ANL_167744_CC1npi0_Project_cosmuStar(HepMC3::GenEvent const &ev) {
         return 0xdeadbeef;
     }
 
+    if (!ps::sel::Beam(ev, ps::pdg::kNuMu) || !ps::sel::Target(ev)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 2212)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 111)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 13)) return 0xdeadbeef;
+
+
     auto Pnu  = ps::sel::Beam(ev, ps::pdg::kNuMu)->momentum();
     auto Pin  = ps::sel::Target(ev)->momentum();
     auto Pp   = ps::sel::OutPartHM(ev, 2212)->momentum();
@@ -341,12 +374,18 @@ double ANL_167744_CC1npi0_Project_Q2(HepMC3::GenEvent const &ev) {
         return 0xdeadbeef;
     }
 
+    if (!ps::sel::Beam(ev, ps::pdg::kNuMu)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 2212)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 111)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 13)) return 0xdeadbeef;
+
+
     auto Pnu  = ps::sel::Beam(ev, ps::pdg::kNuMu)->momentum();
     auto Pp   = ps::sel::OutPartHM(ev, 2212)->momentum();
     auto Ppi0 = ps::sel::OutPartHM(ev, 111)->momentum();
     auto Pmu  = ps::sel::OutPartHM(ev, 13)->momentum();
 
-    return -1.0 * (Pnu - Pmu).length2() / ps::GeV / ps::GeV;
+    return (Pnu - Pmu).length2() / ps::GeV / ps::GeV;
 };
 
 double ANL_167744_CC1npi0_Project_Q2_lowW(HepMC3::GenEvent const &ev) {
@@ -361,6 +400,9 @@ double ANL_167744_CC1npi0_Project_Wmupi(HepMC3::GenEvent const &ev) {
         return 0xdeadbeef;
     }
 
+    if (!ps::sel::OutPartHM(ev, 111)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 13)) return 0xdeadbeef;
+
     auto Pmu  = ps::sel::OutPartHM(ev, 13)->momentum();
     auto Ppip = ps::sel::OutPartHM(ev, 111)->momentum();
     return (Pmu+Ppip).length()/ps::GeV;
@@ -371,12 +413,26 @@ double ANL_167744_CC1npi0_Project_WNpi(HepMC3::GenEvent const &ev) {
         return 0xdeadbeef;
     }
 
+    if (!ps::sel::OutPartHM(ev, 111)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 2212)) return 0xdeadbeef;
+
     auto Pp   = ps::sel::OutPartHM(ev, 2212)->momentum();
     auto Ppip = ps::sel::OutPartHM(ev, 111)->momentum();
     return (Pp+Ppip).length()/ps::GeV;
 };
 
+double ANL_167744_CC1npi0_Project_WNmu(HepMC3::GenEvent const &ev) {
+    if (!ANL_167744_CC1npi0_Selection(ev)) {
+        return 0xdeadbeef;
+    }
 
+    if (!ps::sel::OutPartHM(ev, 2212)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 13)) return 0xdeadbeef;
+
+    auto Pp   = ps::sel::OutPartHM(ev, 2212)->momentum();
+    auto Ppip = ps::sel::OutPartHM(ev, 13)->momentum();
+    return (Pp+Ppip).length()/ps::GeV;
+};
 
 
 int ANL_167744_CC1ppip_Selection(HepMC3::GenEvent const &ev) {
@@ -393,6 +449,11 @@ double ANL_167744_CC1ppip_Project_cosmuStar(HepMC3::GenEvent const &ev) {
     if (!ANL_167744_CC1ppip_Selection_lowW(ev)) {
         return 0xdeadbeef;
     }
+
+    if (!ps::sel::Beam(ev, ps::pdg::kNuMu)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 2212)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 211)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 13)) return 0xdeadbeef;
 
     auto Pnu  = ps::sel::Beam(ev, ps::pdg::kNuMu)->momentum();
     auto Pin  = ps::sel::Target(ev)->momentum();
@@ -414,6 +475,11 @@ double ANL_167744_CC1ppip_Project_costhAdler(HepMC3::GenEvent const &ev) {
         return 0xdeadbeef;
     }
 
+    if (!ps::sel::Beam(ev, ps::pdg::kNuMu)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 2212)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 211)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 13)) return 0xdeadbeef;
+
     auto Pnu  = ps::sel::Beam(ev, ps::pdg::kNuMu)->momentum();
     auto Pp   = ps::sel::OutPartHM(ev, ps::pdg::kProton)->momentum();
     auto Ppip = ps::sel::OutPartHM(ev, ps::pdg::kPiPlus)->momentum();
@@ -429,6 +495,11 @@ double ANL_167744_CC1ppip_Project_phi(HepMC3::GenEvent const &ev) {
         return 0xdeadbeef;
     }
 
+    if (!ps::sel::Beam(ev, ps::pdg::kNuMu)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 2212)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 211)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 13)) return 0xdeadbeef;
+
     auto Pnu  = ps::sel::Beam(ev, ps::pdg::kNuMu)->momentum();
     auto Pp   = ps::sel::OutPartHM(ev, ps::pdg::kProton)->momentum();
     auto Ppip = ps::sel::OutPartHM(ev, ps::pdg::kPiPlus)->momentum();
@@ -443,12 +514,17 @@ double ANL_167744_CC1ppip_Project_Q2(HepMC3::GenEvent const &ev) {
         return 0xdeadbeef;
     }
 
+    if (!ps::sel::Beam(ev, ps::pdg::kNuMu)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 2212)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 211)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, 13)) return 0xdeadbeef;
+
     auto Pnu  = ps::sel::Beam(ev, ps::pdg::kNuMu)->momentum();
     auto Pp   = ps::sel::OutPartHM(ev, ps::pdg::kProton)->momentum();
     auto Ppip = ps::sel::OutPartHM(ev, ps::pdg::kPiPlus)->momentum();
     auto Pmu  = ps::sel::OutPartHM(ev, ps::pdg::kMuon)->momentum();
 
-    return -1 * (Pnu - Pmu).length2() / ps::GeV / ps::GeV;
+    return (Pnu - Pmu).length2() / ps::GeV / ps::GeV;
 };
 
 double ANL_167744_CC1ppip_Project_Q2_lowW(HepMC3::GenEvent const &ev) {
@@ -464,18 +540,29 @@ double ANL_167744_CC1ppip_Project_ppi(HepMC3::GenEvent const &ev) {
         return 0xdeadbeef;
     }
 
+    if (!ps::sel::Beam(ev, ps::pdg::kNuMu)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, ps::pdg::kProton)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, ps::pdg::kPiPlus)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, ps::pdg::kMuon)) return 0xdeadbeef;
+
+
     auto Pnu  = ps::sel::Beam(ev, ps::pdg::kNuMu)->momentum();
     auto Pp   = ps::sel::OutPartHM(ev, ps::pdg::kProton)->momentum();
     auto Ppip = ps::sel::OutPartHM(ev, ps::pdg::kPiPlus)->momentum();
     auto Pmu  = ps::sel::OutPartHM(ev, ps::pdg::kMuon)->momentum();
 
-    return Ppip.length() / ps::GeV;
+    return Ppip.length() / ps::MeV;
 }
 
 double ANL_167744_CC1ppip_Project_thpr(HepMC3::GenEvent const &ev) {
     if (!ANL_167744_CC1ppip_Selection_lowW(ev)) {
         return 0xdeadbeef;
     }
+
+    if (!ps::sel::Beam(ev, ps::pdg::kNuMu)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, ps::pdg::kProton)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, ps::pdg::kPiPlus)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, ps::pdg::kMuon)) return 0xdeadbeef;
 
     auto Pnu  = ps::sel::Beam(ev, ps::pdg::kNuMu)->momentum();
     auto Pp   = ps::sel::OutPartHM(ev, ps::pdg::kProton)->momentum();
@@ -492,6 +579,11 @@ double ANL_167744_CC1ppip_Project_Wmupi(HepMC3::GenEvent const &ev) {
         return 0xdeadbeef;
     }
 
+    if (!ps::sel::Beam(ev, ps::pdg::kNuMu)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, ps::pdg::kProton)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, ps::pdg::kPiPlus)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, ps::pdg::kMuon)) return 0xdeadbeef;
+
     auto Pmu  = ps::sel::OutPartHM(ev, ps::pdg::kMuon)->momentum();
     auto Ppip = ps::sel::OutPartHM(ev, ps::pdg::kPiPlus)->momentum();
     return (Pmu+Ppip).length()/ps::GeV;
@@ -503,6 +595,11 @@ double ANL_167744_CC1ppip_Project_WNmu(HepMC3::GenEvent const &ev) {
         return 0xdeadbeef;
     }
 
+    if (!ps::sel::Beam(ev, ps::pdg::kNuMu)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, ps::pdg::kProton)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, ps::pdg::kPiPlus)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, ps::pdg::kMuon)) return 0xdeadbeef;
+
     auto Pmu  = ps::sel::OutPartHM(ev, ps::pdg::kMuon)->momentum();
     auto Pp   = ps::sel::OutPartHM(ev, ps::pdg::kProton)->momentum();
     return (Pmu+Pp).length()/ps::GeV;
@@ -512,6 +609,11 @@ double ANL_167744_CC1ppip_Project_WNpi(HepMC3::GenEvent const &ev) {
     if (!ANL_167744_CC1ppip_Selection(ev)) {
         return 0xdeadbeef;
     }
+
+    if (!ps::sel::Beam(ev, ps::pdg::kNuMu)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, ps::pdg::kProton)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, ps::pdg::kPiPlus)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, ps::pdg::kMuon)) return 0xdeadbeef;
 
     auto Pp   = ps::sel::OutPartHM(ev, ps::pdg::kProton)->momentum();
     auto Ppip = ps::sel::OutPartHM(ev, ps::pdg::kPiPlus)->momentum();
@@ -524,12 +626,18 @@ double ANL_167744_CC1ppip_XSec_1DQ2(HepMC3::GenEvent const &ev) {
         return 0xdeadbeef;
     }
 
+    if (!ps::sel::Beam(ev, ps::pdg::kNuMu)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, ps::pdg::kProton)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, ps::pdg::kPiPlus)) return 0xdeadbeef;
+    if (!ps::sel::OutPartHM(ev, ps::pdg::kMuon)) return 0xdeadbeef;
+
     auto Pnu  = ps::sel::Beam(ev, ps::pdg::kNuMu)->momentum();
     auto Pp   = ps::sel::OutPartHM(ev, ps::pdg::kProton)->momentum();
     auto Ppip = ps::sel::OutPartHM(ev, ps::pdg::kPiPlus)->momentum();
     auto Pmu  = ps::sel::OutPartHM(ev, ps::pdg::kMuon)->momentum();
 
-    return  -1 * (Pnu - Pmu).length2() / ps::GeV / ps::GeV;
+    std::cout << "Q2 Value " << -1 * (Pnu - Pmu).length2() / ps::GeV / ps::GeV << std::endl;
+    return  (Pnu - Pmu).length2() / ps::GeV / ps::GeV;
 };
 
 }

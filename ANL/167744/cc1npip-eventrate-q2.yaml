@@ -18,7 +18,7 @@ dependent_variables:
   - name: Filter
     value: ANL_167744_CC1npip_Selection
   - name: Q2
-    value: ANL_167744_CC1npip_Project_Q2_HighW
+    value: ANL_167744_CC1npip_Project_Q2_highW
   values:
   - value: 34.2
   - value: 20.4

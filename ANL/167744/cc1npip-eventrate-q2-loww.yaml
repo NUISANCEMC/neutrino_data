@@ -16,9 +16,9 @@ dependent_variables:
   - name: suggested_flux
     value: inspire:unknown
   - name: Filter
-    value: ANL_167744_CC1npip_Selection_W14Cut
+    value: ANL_167744_CC1npip_Selection_lowW
   - name: Q2-lowW
-    value: ANL_167744_CC1npip_Project_Q2_W14
+    value: ANL_167744_CC1npip_Project_Q2_lowW
   values:
   - value: 34.0
   - value: 18.0
