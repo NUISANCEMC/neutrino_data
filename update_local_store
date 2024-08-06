@@ -1,0 +1,50 @@
+#!/bin/bash
+
+if [ ! -e data ]; then
+  echo "Run this script from within the repository root directory. Expected to find a directory named data."
+  exit 1
+fi
+
+if [ -e local_store ]; then
+  rm -r local_store
+fi
+
+mkdir -p local_store/inspire
+
+for DIR in $(find data/ -name ToHepData.py -exec dirname \{} \;); do
+
+  #check if the directory above has ToHepData.py, if it does, this is a submission directory and should be skipped
+  cd ${DIR}
+  if [ -e ../ToHepData.py ]; then
+    cd - &> /dev/null
+    continue;
+  fi
+  cd - &> /dev/null
+
+  echo "Processing release directory: ${DIR}"
+
+  INSID=$(find ${DIR} -type d -iname "submission-*" -exec basename \{} \; | sed "s/submission-//g")
+
+  if [ ! -z "${INSID}" ]; then
+    echo "  Found submission directory with INSPIRE ID: ${INSID}"
+  else
+    echo "  Running ToHepData.py"
+    cd ${DIR}
+    python3 ToHepData.py &> lastrun.log
+    cd - &> /dev/null
+    INSID=$(find ${DIR} -type d -iname "submission-*" -exec basename \{} \; | sed "s/submission-//g")
+
+    if [ -z "${INSID}" ]; then
+      echo "  [ERROR]: Failed to find submission INSPIRE ID even after re-running ToHepData.py"
+      continue
+    else
+      echo "  Found submission directory with INSPIRE ID: ${INSID}"
+    fi
+
+  fi
+
+  cd local_store/inspire
+  ln -s ../../${DIR}/submission-${INSID} ${INSID}
+  cd - &> /dev/null
+
+done

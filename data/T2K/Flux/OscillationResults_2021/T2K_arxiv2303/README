@@ -1,0 +1,106 @@
+This archive contains the electronic version in ROOT format of the measurements of oscillation parameters in the paper "Measurements of neutrino oscillation parameters using 3.6 \times 10^{21} protons on target with the T2K experiment". Its arxiv identifier is arXiv:2303.03222 [hep-ex].
+
+**************************************
+***** Results included in this release
+**************************************
+Both Bayesian and frequentist results are provided, with details of each analysis provided in the paper. All published oscillation parameters are provided, with 2D confidence/credible regions and 1D DeltaChi^2 and posterior probability density distributions. The Bayesian and frequentist results are separated in two different files ("Bayesian_DataRelase.root" and "Frequentist_DataRelease.root"), and an a tag in the TGraph and histogram names also allow to differentiate them: "cred" for credible interval from the Bayesian analysis, "conf" for confidence interval from the frequentist analysis. For the 1D distributions, the posteriors are Bayeisan results and the DeltaChi^2 are frequentist results.
+
+Results for each mass hierarchy hypothesis are provided, denoted "NH" for normal hierarchy and "IH" for inverted hierarchy. The Bayesian file also includes the results marginalised over the mass hierarchy, denoted by the tag "both" in the object names.
+The Bayesian and frequentist results use different conventions for the mass splitting in the inverted hierarchy: the Bayesian results are in term of #Deltam^{2}_{32} for both normal (NH) and inverted (IH) hierarchies, whereas the frequentist results are plotted versus #Deltam^{2}_{32} for the NH, and |#Deltam^{2}_{31}| for the IH.
+
+When employed, the constraint on theta13 from reactor experiment results corresponds to the value in the PDG 2019 summary table: sin^2(theta_13)=(2.18+-0.07) x 10^{-2}. This is commonly referred to as "the reactor constraint".
+Results marked "woRC" are without this reactor constraint, and "wRC" are with the reactor constraint.
+
+A glossary is provided at the end of this readme. 
+
+Two example ROOT macros ("Bayesian_example.cpp" and "Frequentist_example.cpp") showcase how to extract information from the data release. These produce pdf files of the results that can be directly compared to the "*ref.pdf" files for validation.
+
+**************************************
+***** Objects inside the ROOT files
+**************************************
+The ROOT objects contained inside the files are named first with an identifier of which parameter(s) are being shown, followed by the reactor constraint tag, followed by the mass hierarchy tag.
+For the frequentist results, there's an additional "FC" tag, marking if critical DeltaChi^2 values have been computed with Feldman-Cousins ("FC") or using Wilks' theorem (constant DeltaChi^2).
+
+**************************************
+*** 2D regions
+**************************************
+Objects of the form
+gr2D_varX_varY_<wRC,woRC>_<NH,IH,both>_<conf,cred><68,90,955,997>(_N)
+are TGraphs corresponding to the 2D confidence ("conf") or credible ("cred") regions for the 2 variables (varX, varY). N is the iterator for different TGraphs corresponding to the same region; these occur when confidence regions are discontinuous (for example when deltaCP loops over from +pi to -pi).
+68, 90, 955, 997 are the percentage credible/confidence levels.
+
+The best fit markers are also provided for the 2D results:
+gr2D_varX_varY_<wRC,woRC>_<NH,IH,both>_bestfit
+
+The best fit markers and contour lines are computed for each MH *separately*, i.e. assuming DeltaChi^2 is 0 at the minimum or that the total posterior probability integrates to 1 in the mass hierarchy considered. There is only one exception, some 2D regions for (sin^2(theta_23), dcp) are also provided using a best fit over both MH to allow for comparisons with other experiments using this convention. This special set of contours has an extra tag "globalMH" in its name to distinguish it from the others.
+
+For larger confidence/credible exclusion regions (e.g. 99.7%) and when the Bayesian analysis shows the result for dm2 for both hierarchies, the regions may be split in to discontinuous regions. They are named "_0" and "_1", and the value on the y-axis denotes dm^{2}_{23}, from which the hierarchy can be deduced. The examples show examples of how this can be acheived.
+
+**************************************
+*** 1D plots
+**************************************
+Objects of the form
+h1D_var<chi2,posterior>_<wRC,woRC>_<NH,IH>
+are TH1D of the DeltaChi^2 ("chi2") or posterior probability ("posterior") for oscillation parameter "var".
+
+The Bayesian and frequentist results use different conventions with respect to the mass hierarchy:
+- 1D DeltaChi^2 plots use a global minimum over both hierarchies
+- Each 1D posterior probability plot integrates to unity *individually*
+
+**************************************
+***** Additional notes for frequentist results
+**************************************
+Most of the 2D frequentist regions were computed using the standard DeltaChi^2 values (from the Gaussian case), and not the Feldman-Cousins method. They therefore have only approximate coverage.
+For the 2D distributions, only {sin^2(theta_23), deltaCP} with reactor constraint were computed using the Feldman-Cousins method, and are expected to have proper coverage. To distinguish them from other confidence regions, a tag "FC" is included in the name of the corresponding TGraph.
+Additionally, those extra regions using Feldman-Cousins method are provided with two conventions regarding the best fit used to evaluate them. The TGraphs with an extra tag "globalMH" use a best fit over both MH hypothesis. The ones without this extra tag use the best fit obtained in each MH to compute the confidence regions for this MH.
+
+For the 1D plots, critical delta chi2 values obtained with the Feldman-Cousins method are provided for theta23 and deltaCP (with reactor constraint "wRC" case only):
+grCritical_{variable}chi2_wRC_{MH}_conf{CL}
+    variable: th23, dCP
+    MH:       NH, IH
+    CL:       68, 90, 955, 997
+
+To obtain the FC-corrected confidence interval in those 2 cases for a given confidence level, take the intersection of grCritical with the corresponding 1D histogram. This is shown in the example macros.
+
+**************************************
+***** Additional notes for Bayesian results
+**************************************
+For plots involving the mass splitting, the choice of hierarchy is given by the sign:
+  dm32>0 is normal hierarchy (Delta m^2_{32} > 0)
+  dm32<0 is inverted hierarchy (Delta m^2_{32} < 0)
+
+For the Jarlskog invariant, the prior on deltaCP is either flat in deltaCP, or flat in sindeltaCP ("flatsindcp")
+
+Note that the posteriors have not been smoothed, and may contain small discontinuities due to MCMC statistical uncertainties, e.g. in "h1D_dCPposterior_wRC_IH" around delta CP=-1.47.
+
+Plots with "_bestfit" appended signify the point in the space with the highest posterior density, and is not necessarily the global minimum of the test-statistic.
+
+For the 1D posterior distributions, the user can freely calculate credible intervals from the distributions. It is recommended to start at the point of the highest posterior density, and moving down in posterior density to produce asymmetric credible intervals. The root macro "Bayesian_example.cpp" shows a method to do this.
+
+**************************************
+***** Glossary
+**************************************
+
+"RC"    - Reaction Constraint from PDG 2019 sin^2(theta_13)=(2.18+-0.07) x 10^{-2}. 
+"wRC"   - With Reactor Constraint
+"woRC"  - Without Reactor Constraint
+"FC"    - Feldman-Cousins
+"NH"    - Normal Hierarchy
+"IH"    - Inverted Hierarchy
+"both"  - Marginalised over normal and inverted hierarchy
+"cred"  - Credible interval
+"conf"  - Confidence interval
+  "68"  - 68% (1 sigma)
+  "90"  - 90%
+  "955" - 95.5% (2 sigma)
+  "997" - 99.7% (3 sigma)
+"chi2"  - DeltaChi^2 (-2lnL) for parameter 
+"Critical" - Critical DeltaChi^2 computed with Feldman-Cousins
+
+"th13"  - sin^2(theta_13)
+"th23"  - sin^2(theta_23)
+"dCP"   - delta CP
+"dm2"   - Delta m^2_{23} (NH), |Delta m^2_{13} (IH)| for confidence intervals; used in frequentist analysis.
+"dm32"  - Delta m^{2_{23} regardless of hierarchy; in the Bayesian analysis Delta m^2_{23} is always plotted.
+"jarlskog" - Jarlskog invariant, only in Bayesian analysis
+"flatsindcp" - Flat in sin delta CP
