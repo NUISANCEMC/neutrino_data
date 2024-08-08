@@ -1,2 +1,4 @@
 submission-*/
 submission.tar.gz
+env/*
+.DS_Store

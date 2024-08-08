@@ -12,9 +12,9 @@ def flux_tables(inFileName, detname, tname):
   reader = RootFileReader(inFileName)
   
   fluxes =  { "nue": reader.read_hist_1d(f"enu_{detname}_nue"),
-             "numu": reader.read_hist_1d(f"enu_{detname}_numu"),
-             "nueb": reader.read_hist_1d(f"enu_{detname}_nueb"),
-             "numub": reader.read_hist_1d(f"enu_{detname}_numub") }
+              "numu": reader.read_hist_1d(f"enu_{detname}_numu"),
+              "nueb": reader.read_hist_1d(f"enu_{detname}_nueb"),
+              "numub": reader.read_hist_1d(f"enu_{detname}_numub") }
 
   #### Build Submission
   EnuVar = Variable("e_nu", is_independent=True, is_binned=True, units="GeV")

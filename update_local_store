@@ -9,7 +9,7 @@ if [ -e local_store ]; then
   rm -r local_store
 fi
 
-mkdir -p local_store/inspire
+mkdir -p local_store/INSPIREHEP
 
 for DIR in $(find data/ -name ToHepData.py -exec dirname \{} \;); do
 
@@ -43,7 +43,7 @@ for DIR in $(find data/ -name ToHepData.py -exec dirname \{} \;); do
 
   fi
 
-  cd local_store/inspire
+  cd local_store/INSPIREHEP
   ln -s ../../${DIR}/submission-${INSID} ${INSID}
   cd - &> /dev/null
 
