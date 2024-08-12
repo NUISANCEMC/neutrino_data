@@ -29,8 +29,8 @@ def flux_tables(inFileName, detname, tname):
     FluxVar = Variable(f"flux_{nuspec}", is_independent=False, is_binned=False, units="/cm$^{2}$ /10$^{21}$ p.o.t /50 MeV$")
     FluxVar.values = fluxes[nuspec]["y"]
 
-    FluxVar.add_qualifier("probe_species", nuspec)
-    FluxVar.add_qualifier("bin_content_type", "count_per_bin_width")
+    FluxVar.add_qualifier("probe_particle", nuspec)
+    FluxVar.add_qualifier("bin_content_type", "count_density")
 
     FluxTable.add_variable(FluxVar)
 

@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
 import yaml
-import csv
 import os
 import ROOT
 import re
 from math import sqrt
 import requests
+import numpy as np
 
 from hepdata_lib import Submission, Table, Variable, Uncertainty, RootFileReader
 
@@ -48,63 +48,46 @@ def build_flux_table(hname, tname):
   return FluxTable
 
 def nd280_analysis():
-  bins = []
 
-  with open("onoffaxis_data_release/nd280_analysis_binning.csv", newline='') as csvfile:
-    csvreader = csv.DictReader(csvfile)
-    for row in csvreader:
-      bins.append({
-        "bin_id": row["bin"], "extents": [
-        ( float(row["low_momentum"])/1E3, float(row["high_momentum"])/1E3 ),
-        ( float(row["low_angle"]), float(row["high_angle"]) ),
-      ]})
+  nd280_analysis_binning = np.genfromtxt("onoffaxis_data_release/nd280_analysis_binning.csv",
+                                        delimiter=",", skip_header=1)
 
-  data = {
-    "data": {},
-    "error": {},
-    "nominal_mc": {},
-  }
-
-  with open("onoffaxis_data_release/xsec_data_mc.csv", newline='') as csvfile:
-    csvreader = csv.DictReader(csvfile)
-    for row in csvreader:
-      #DictReader doesn't strip keys unfortunately
-      for k,v in row.items():
-        if k.strip() == "data":
-          data["data"][row["bin"]] = float(v)
-        elif k.strip() == "nominal_mc":
-          data["nominal_mc"][row["bin"]] = float(v)
-
-  with open("onoffaxis_data_release/cov_matrix.csv", newline='') as csvfile:
-    csvreader = csv.reader(csvfile)
-    for i, row in enumerate(csvreader):
-      data["error"][str(i+1)] = { str(j+1): float(x)  for j,x in enumerate(row) }
-
-  #### Build Submission
   CosThetaVar = Variable("cos_theta_mu", is_independent=True, is_binned=True, units="")
-  CosThetaVar.values = [ x["extents"][1] for x in bins ]
+  CosThetaVar.values = nd280_analysis_binning[:,1:3] 
 
   PVar = Variable("p_mu", is_independent=True, is_binned=True, units="MeV/c")
-  PVar.values = [ x["extents"][0] for x in bins ]
+  PVar.values = nd280_analysis_binning[:,3:5] / 1E3
 
-  CrossSection = Variable("cross_section", is_independent=False, is_binned=False, units="$cm${}^{2} c/MeV /Nucleon$")
-  CrossSection.values = [ data["data"][x["bin_id"]] for x in bins ]
+  xsec_data_mc = np.genfromtxt("onoffaxis_data_release/xsec_data_mc.csv",
+                                          delimiter=",", skip_header=1)
 
-  CrossSection.add_qualifier("selectfunc", "T2K_CC0Pi_onoffaxis_nu_SelectSignal")
-  CrossSection.add_qualifier("cos_theta_mu:projectfunc", "T2K_CC0Pi_onoffaxis_nu_Project_CosThetaMu")
-  CrossSection.add_qualifier("p_mu:projectfunc", "T2K_CC0Pi_onoffaxis_nu_Project_PMu")
+  # the first 58 rows are nd280-only
+  nd280_data_mc = xsec_data_mc[:58,...]
+
+  CrossSection = Variable("cross_section", is_independent=False, is_binned=False, 
+                          units="$cm${}^{2} c/MeV /Nucleon$")
+  CrossSection.values = nd280_data_mc[:,1]
+
+  CrossSection.add_qualifier("selectfunc", "analysis.cxx:T2K_CC0Pi_onoffaxis_nu_SelectSignal")
+  CrossSection.add_qualifier("cos_theta_mu:projectfunc", "analysis.cxx:T2K_CC0Pi_onoffaxis_nu_Project_CosThetaMu")
+  CrossSection.add_qualifier("p_mu:projectfunc", "analysis.cxx:T2K_CC0Pi_onoffaxis_nu_Project_PMu")
 
   CrossSection.add_qualifier("target", "CH")
-  CrossSection.add_qualifier("probe_spectra", "flux-offaxis-postfit-fine")
+  CrossSection.add_qualifier("probe_flux", "flux-offaxis-postfit-fine")
   CrossSection.add_qualifier("variable_type", "cross_section_measurement")
 
-  CrossSectionNEUT = Variable("cross_section_neut-prediction", is_independent=False, is_binned=False, units="$cm${}^{2} c/MeV /Nucleon$")
-  CrossSectionNEUT.values = [ data["nominal_mc"][x["bin_id"]] for x in bins ]
+  CrossSectionNEUT = Variable("cross_section_neut-prediction", is_independent=False, 
+                              is_binned=False, units="$cm${}^{2} c/MeV /Nucleon$")
+  CrossSectionNEUT.values = nd280_data_mc[:,2]
 
   CrossSectionNEUT.add_qualifier("variable_type", "cross_section_prediction")
 
+  cov_matrix = np.genfromtxt("onoffaxis_data_release/cov_matrix.csv",
+                                        delimiter=",")
+  nd280_cov_matrix = cov_matrix[:58,:58]
+
   TotalUncertainty = Uncertainty("total", is_symmetric=True)
-  TotalUncertainty.values = [ sqrt(data["error"][x["bin_id"]][x["bin_id"]]) for x in bins ]
+  TotalUncertainty.values = np.sqrt(np.diagonal(nd280_cov_matrix))
 
   CrossSection.add_uncertainty(TotalUncertainty)
 
@@ -126,64 +109,50 @@ def nd280_analysis():
 
 def ingrid_analysis():
 
-  bins = []
+  ingrid_analysis_binning = np.genfromtxt("onoffaxis_data_release/ingrid_analysis_binning.csv",
+                                        delimiter=",", skip_header=1)
 
-  with open("onoffaxis_data_release/ingrid_analysis_binning.csv", newline='') as csvfile:
-    csvreader = csv.DictReader(csvfile)
-    for row in csvreader:
-      bins.append({
-        "bin_id": row["bin"], "extents": [
-        ( float(row["low_momentum"])/1E3, float(row["high_momentum"])/1E3 ),
-        ( float(row["low_angle"]), float(row["high_angle"]) ),
-      ]})
-
-  data = {
-    "data": {},
-    "error": {},
-    "nominal_mc": {},
-  }
-
-  with open("onoffaxis_data_release/xsec_data_mc.csv", newline='') as csvfile:
-    csvreader = csv.DictReader(csvfile)
-    for row in csvreader:
-      #DictReader doesn't strip keys unfortunately
-      for k,v in row.items():
-        if k.strip() == "data":
-          data["data"][row["bin"]] = float(v)
-        elif k.strip() == "nominal_mc":
-          data["nominal_mc"][row["bin"]] = float(v)
-
-  with open("onoffaxis_data_release/cov_matrix.csv", newline='') as csvfile:
-    csvreader = csv.reader(csvfile)
-    for i, row in enumerate(csvreader):
-      data["error"][str(i+1)] = { str(j+1): float(x)  for j,x in enumerate(row) }
-
-  #### Build Submission
   CosThetaVar = Variable("cos_theta_mu", is_independent=True, is_binned=True, units="")
-  CosThetaVar.values = [ x["extents"][1] for x in bins ]
+  CosThetaVar.values = ingrid_analysis_binning[:,1:3] 
 
   PVar = Variable("p_mu", is_independent=True, is_binned=True, units="MeV/c")
-  PVar.values = [ x["extents"][0] for x in bins ]
+  PVar.values = ingrid_analysis_binning[:,3:5] / 1E3
+
+  CosThetaVar = Variable("cos_theta_mu", is_independent=True, is_binned=True, units="")
+  CosThetaVar.values = ingrid_analysis_binning[:,1:3] 
+
+  PVar = Variable("p_mu", is_independent=True, is_binned=True, units="MeV/c")
+  PVar.values = ingrid_analysis_binning[:,3:5] / 1E3
+
+  xsec_data_mc = np.genfromtxt("onoffaxis_data_release/xsec_data_mc.csv",
+                                          delimiter=",", skip_header=1)
+
+  # the remaining rows are ingrid-only
+  ingrid_data_mc = xsec_data_mc[58:,...]
 
   CrossSection = Variable("cross_section", is_independent=False, is_binned=False, units="$cm${}^{2} c/MeV /Nucleon$")
-  CrossSection.values = [ data["data"][x["bin_id"]] for x in bins ]
+  CrossSection.values = ingrid_data_mc[:,1]
 
-  CrossSection.add_qualifier("selectfunc", "T2K_CC0Pi_onoffaxis_nu_SelectSignal")
-  CrossSection.add_qualifier("cos_theta_mu:projectfunc", "T2K_CC0Pi_onoffaxis_nu_Project_CosThetaMu")
-  CrossSection.add_qualifier("p_mu:projectfunc", "T2K_CC0Pi_onoffaxis_nu_Project_PMu")
+  CrossSection.add_qualifier("selectfunc", "analysis.cxx:T2K_CC0Pi_onoffaxis_nu_SelectSignal")
+  CrossSection.add_qualifier("cos_theta_mu:projectfunc", "analysis.cxx:T2K_CC0Pi_onoffaxis_nu_Project_CosThetaMu")
+  CrossSection.add_qualifier("p_mu:projectfunc", "analysis.cxx:T2K_CC0Pi_onoffaxis_nu_Project_PMu")
 
   CrossSection.add_qualifier("target", "CH")
-  CrossSection.add_qualifier("probe_spectra", "flux-onaxis-postfit-fine")
+  CrossSection.add_qualifier("probe_flux", "flux-onaxis-postfit-fine")
   CrossSection.add_qualifier("variable_type", "cross_section_measurement")
   CrossSection.add_qualifier("pretty_name", r"$p_{\mu}$")
 
   CrossSectionNEUT = Variable("cross_section_neut-prediction", is_independent=False, is_binned=False, units="$cm${}^{2} c/MeV /Nucleon$")
-  CrossSectionNEUT.values = [ data["nominal_mc"][x["bin_id"]] for x in bins ]
+  CrossSectionNEUT.values = ingrid_data_mc[:,2]
 
   CrossSectionNEUT.add_qualifier("variable_type", "cross_section_prediction")
 
+  cov_matrix = np.genfromtxt("onoffaxis_data_release/cov_matrix.csv",
+                                        delimiter=",")
+  ingrid_cov_matrix = cov_matrix[58:,58:]
+
   TotalUncertainty = Uncertainty("total", is_symmetric=True)
-  TotalUncertainty.values = [ sqrt(data["error"][x["bin_id"]][x["bin_id"]]) for x in bins ]
+  TotalUncertainty.values = np.sqrt(np.diagonal(ingrid_cov_matrix))
 
   CrossSection.add_uncertainty(TotalUncertainty)
 
@@ -205,36 +174,32 @@ def ingrid_analysis():
 
 def joint_analysis():
 
-  #### Build Submission
+  cov_matrix = np.genfromtxt("onoffaxis_data_release/cov_matrix.csv",
+                                        delimiter=",")
+  allbins = []
+  for j in np.arange(cov_matrix.shape[0]):
+    for i in np.arange(cov_matrix.shape[0]):
+      allbins.append((i,j))
+  allbins = np.array(allbins)
+
   bin_i = Variable("bin_i", is_independent=True, is_binned=False, units="")
-  bin_i.values = []
+  bin_i.values = allbins[:,0]
 
   bin_j = Variable("bin_j", is_independent=True, is_binned=False, units="")
-  bin_j.values = []
+  bin_j.values = allbins[:,1]
 
   Covariance = Variable("covariance", is_independent=False, is_binned=False, units=r"$(cm${}^{2} c/MeV /Nucleon)^{2}$")
-  Covariance.values = []
+  Covariance.values = np.ravel(cov_matrix)
 
-  with open("onoffaxis_data_release/cov_matrix.csv", newline='') as csvfile:
-    csvreader = csv.reader(csvfile)
-    for i, row in enumerate(csvreader):
-      for j, val in enumerate(row):
-        bin_i.values.append(i)
-        bin_j.values.append(j)
-        Covariance.values.append(val)
+  inv_cov_matrix = np.genfromtxt("onoffaxis_data_release/inv_matrix.csv",
+                                        delimiter=",")
 
   Invcovariance = Variable("inverse_covariance", is_independent=False, is_binned=False, units=r"$(cm${}^{2} c/MeV /Nucleon)^{-2}$")
-  Invcovariance.values = []
-
-  with open("onoffaxis_data_release/inv_matrix.csv", newline='') as csvfile:
-    csvreader = csv.reader(csvfile)
-    for i, row in enumerate(csvreader):
-      for j, val in enumerate(row):
-        Invcovariance.values.append(val)
+  Invcovariance.values = np.ravel(inv_cov_matrix)
 
   Covariance.add_qualifier("variable_type", "error_table")
   Covariance.add_qualifier("error_type", "covariance")
-  
+
   Invcovariance.add_qualifier("variable_type", "error_table")
   Invcovariance.add_qualifier("error_type", "inverse_covariance")
 
@@ -248,9 +213,9 @@ def joint_analysis():
 
   jointTable = Table("cross_section-onoffaxis")
   CrossSection = Variable("cross_section", is_independent=False)
-  CrossSection.add_qualifier("variable_type", "combined_cross_section_measurement")
+  CrossSection.add_qualifier("variable_type", "composite_cross_section_measurement")
   CrossSection.add_qualifier("sub_measurements", "cross_section-offaxis,cross_section-onaxis")
-  CrossSection.add_qualifier("error", "covariance-onoffaxis")
+  CrossSection.add_qualifier("error", "covariance-onoffaxis:inverse_covariance")
   jointTable.add_variable(CrossSection)
 
   return (covmatTable,jointTable)
@@ -284,6 +249,7 @@ submission.add_additional_resource(description="Selection and projection functio
 submission.add_link(description="publication", location="https://doi.org/10.1103/PhysRevD.108.112009")
 submission.add_link(description="pre-print", location="https://doi.org/10.48550/arXiv.2303.14228")
 submission.add_link(description="official data release", location="https://doi.org/10.5281/zenodo.7768255")
-submission.add_link(description="use with NUISANCE3", location="https://github.com/NUISANCEMC/nuisance3")
+submission.add_link(description="Use with NUISANCE3", location="https://github.com/NUISANCEMC/nuisance3")
+submission.add_link(description="Adheres to the NUISANCE HEPData Conventions", location="https://github.com/NUISANCEMC/HEPData/tree/main")
 
 submission.create_files(f"submission-{INSPIRE_id}", remove_old=True)

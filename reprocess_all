@@ -1,0 +1,23 @@
+#!/bin/bash
+
+if [ ! -e data ]; then
+  echo "Run this script from within the repository root directory. Expected to find a directory named data."
+  exit 1
+fi
+
+for DIR in $(find data/ -name ToHepData.py -exec dirname \{} \;); do
+
+  #check if the directory above has ToHepData.py, if it does, this is a submission directory and should be skipped
+  cd ${DIR}
+  if [ -e ../ToHepData.py ]; then
+    cd - &> /dev/null
+    continue;
+  fi
+  echo "Processing: $(pwd)"
+  if python3 ToHepData.py &> lastrun.log; then
+    echo "  Succeeded"
+  else
+    echo "  Failed"
+  fi
+  cd - &> /dev/null
+done
