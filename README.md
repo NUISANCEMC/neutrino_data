@@ -12,7 +12,7 @@ The [NUISANCE HepData Specification](https://github.com/NUISANCEMC/HEPData), mus
 
 Data releases should be stored within the `data` directory in the repository root. We strongly suggest storing new release directories under subdirectories named according to the experiment that the measurement was made with. Further subdirectories are optional, but can help partition experiment-specific directories that contain a lot of measurements. A release directory does not have to be named anything specifically, we recommend naming them something relatively short that corresponds to the type of measurement(s) contained and includes the year of publication. For example, `data/T2K/CH-target/CC0Pi_TKI_2018`, might refer to the release for [this publication](https://journals.aps.org/prd/abstract/10.1103/PhysRevD.98.032003).
 
-The directory structure can be relatively freeform because release directories are discovered by searching for `ToHepData.py` scripts.
+The directory structure can be relatively freeform because release directories are discovered by searching for `ToHepData.py` scripts. The means that you must always name your submission creation script `ToHepData.py`.
 
 ### `ToHepData.py`
 
@@ -37,9 +37,11 @@ submission.create_files(f"submission-{INSPIRE_id}", remove_old=True)
 
 Input files for conversion, such as official data release files, can be downloaded as part of the submission creation process, or can be manually downloaded and stored in relevant submission directory.
 
+More examples of submission creation are given in the main [NUISANCE HEPData specification respository](https://github.com/NUISANCEMC/HEPData#building-a-submission).
+
 ### What to commit
 
-Everything that is needed to build the data releases should be committed, this includes manually downloaded official data releases and the ToHepData.py scripts. The submission directory and the submission.tar.gz files themselves should not be comitted.
+Everything that is needed to build the data releases should be committed, this includes manually downloaded official data releases and the ToHepData.py scripts. The submission directory and the submission.tar.gz files themselves should not be comitted and are ignored by default in the `.gitignore` for this repository.
 
 ## Utilities
 

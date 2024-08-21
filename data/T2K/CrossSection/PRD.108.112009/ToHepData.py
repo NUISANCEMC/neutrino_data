@@ -12,9 +12,9 @@ from hepdata_lib import Submission, Table, Variable, Uncertainty, RootFileReader
 
 if not os.path.exists("onoffaxis_data_release/analysis_flux.root"):
   if not os.path.exists("onoffaxis_data_release.tar.gz"):
-    req = requests.get("https://zenodo.org/records/7768255/files/onoffaxis_data_release.tar.gz?download=1", params={"download": 1})
+    req = requests.get("https://zenodo.org/records/13306653/files/onoffaxis_data_release.tar.gz?download=1", params={"download": 1})
     if req.status_code != requests.codes.ok:
-      raise RuntimeError("Failed to download data release from: https://zenodo.org/records/7768255/files/onoffaxis_data_release.tar.gz?download=1")
+      raise RuntimeError("Failed to download data release from: https://zenodo.org/records/13306653/files/onoffaxis_data_release.tar.gz?download=1")
     with open("onoffaxis_data_release.tar.gz", 'wb') as fd:
       for chunk in req.iter_content(chunk_size=128):
         fd.write(chunk)
@@ -33,12 +33,13 @@ def build_flux_table(hname, tname):
   EnuVar = Variable("e_nu", is_independent=True, is_binned=True, units="GeV")
   EnuVar.values = fh["x_edges"]
 
-  FluxVar = Variable("flux_nu", is_independent=False, is_binned=False, units="$/cm^{2}/50MeV/10^{21}p.o.t$")
-  FluxVar.values = fh["y"]
+  FluxVar = Variable("flux_nu", is_independent=False, is_binned=False, units="$/cm^{2}/10^{21}p.o.t$")
+  # scales out the /50 MeV in the input that is incorrectly included in the coarse fluxes in the data release
+  FluxVar.values = np.array(fh["y"]) * 0.05
 
   FluxVar.add_qualifier("variable_type", "probe_flux")
   FluxVar.add_qualifier("probe_particle", "numu")
-  FluxVar.add_qualifier("bin_content_type", "count_density")
+  FluxVar.add_qualifier("bin_content_type", "count")
 
   FluxTable = Table(tname)
 
@@ -248,7 +249,7 @@ submission.add_additional_resource(description="Selection and projection functio
 
 submission.add_link(description="publication", location="https://doi.org/10.1103/PhysRevD.108.112009")
 submission.add_link(description="pre-print", location="https://doi.org/10.48550/arXiv.2303.14228")
-submission.add_link(description="official data release", location="https://doi.org/10.5281/zenodo.7768255")
+submission.add_link(description="official data release", location="https://doi.org/10.5281/zenodo.13306653")
 submission.add_link(description="Use with NUISANCE3", location="https://github.com/NUISANCEMC/nuisance3")
 submission.add_link(description="Adheres to the NUISANCE HEPData Conventions", location="https://github.com/NUISANCEMC/HEPData/tree/main")
 

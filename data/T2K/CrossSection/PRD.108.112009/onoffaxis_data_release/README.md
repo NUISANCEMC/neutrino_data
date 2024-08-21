@@ -1,4 +1,5 @@
-### On-/Off-Axis Data Release (Version 1.0, dated 2023/03/24)
+### On-/Off-Axis Data Release
+#### (Version 1.0.1, dated 2024/08/12)
 
 This tar archive contains the data release for ‘First measurement of muon neutrino charged-current interactions on hydrocarbon without pions in the final state using multiple detectors with correlated energy spectra at T2K’. It contains the cross-section data points and supporting information in ROOT and text format, which are detailed below:
 
@@ -38,3 +39,8 @@ This is an example Python script to calculate the chi-square between the data an
     - 0: `0.50 < cos(#theta) < 0.82`
     - 1: `0.82 < cos(#theta) < 0.94`
     - 2: `0.94 < cos(#theta) < 1.00`
+    
+### Changelog
+
+#### v1.0.1
+Fix transcription error in INGRID momentum binning. The lowest momentum bin edge is at 350 MeV/c, not 300 MeV/c.
