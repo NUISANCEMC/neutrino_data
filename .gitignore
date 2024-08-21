@@ -2,3 +2,4 @@ submission-*/
 submission.tar.gz
 env/*
 .DS_Store
+lastrun.log
